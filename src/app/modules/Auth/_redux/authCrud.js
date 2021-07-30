@@ -1,21 +1,36 @@
 import axios from "axios";
+import config from "../../../../config/config";
 
-// export const LOGIN_URL = "http://127.0.0.1:8000/api/auth/login";
-// export const REGISTER_URL = "http://127.0.0.1:8000/api/auth/signup";
-// export const ME_URL = "http://127.0.0.1:8000/api/auth/user";
+export const LOGIN_URL = config.baseUrl + "auth/signin";
+export const LOGIN_MOBILE_URL = config.baseUrl + "fast_login_with_mobile";
+export const REGISTER_URL = config.baseUrl + "fast_signup";
+export const VERIFY_URL = config.baseUrl + "fast_user_verification";
+export const REQUEST_PASSWORD_URL = config.baseUrl + "api/auth/forgot-password";
 
-export const REQUEST_PASSWORD_URL = "api/auth/forgot-password";
+export const ME_URL = "api/me";
 
-export const LOGIN_URL = "http://api.monosens.com/api/auth/login";
-export const REGISTER_URL = "http://api.monosens.com/api/auth/signup";
-export const ME_URL = "http://api.monosens.com/api/auth/user";
+export function login(phone, password) {
 
-export function login(email, password) {
-  return axios.post(LOGIN_URL, { email, password });
+  let intext = {
+    Phone: phone,
+    Password: password
+  }
+  return axios.post(LOGIN_URL, intext);
+}
+export function loginWithMobile(username) {
+  let intext = {
+    mobile_number: username,
+  }
+  return axios.post(LOGIN_MOBILE_URL, { intext }
+  );
 }
 
-export function register(email, first_name, last_name, phone, company_name, name, password, role) {
-  return axios.post(REGISTER_URL, { email, first_name, last_name, phone, company_name, name, password, role });
+export function register(intext) {
+  return axios.post(REGISTER_URL, { intext });
+}
+
+export function verify(intext) {
+  return axios.post(VERIFY_URL, { intext });
 }
 
 export function requestPassword(email) {

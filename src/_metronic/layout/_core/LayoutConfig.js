@@ -1,9 +1,9 @@
-import { toAbsoluteUrl } from "../../_helpers";
+import {toAbsoluteUrl} from "../../_helpers";
 export function getInitLayoutConfig() {
   return {
     demo: "demo1",
     js: {
-      breakpoints: {
+      breakpoints : {
         sm: "576",
         md: "768",
         lg: "992",
@@ -104,7 +104,7 @@ export function getInitLayoutConfig() {
       }
     },
     subheader: {
-      display: false,
+      display: true,
       displayDesc: false,
       displayDaterangepicker: true,
       layout: "subheader-v1",

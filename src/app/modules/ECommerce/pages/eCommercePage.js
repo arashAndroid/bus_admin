@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { CustomersPage } from "./customers/CustomersPage";
+
 import { ProductsPage } from "./products/ProductsPage";
 import { ProductEdit } from "./products/product-edit/ProductEdit";
 import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
+
 
 export default function eCommercePage() {
   return (
@@ -13,18 +15,20 @@ export default function eCommercePage() {
           /* Redirect from eCommerce root URL to /customers */
           <Redirect
             exact={true}
-            from="/e-commerce"
-            to="/e-commerce/customers"
+            from="/crud"
+            to="/crud/customers"
           />
+
         }
-        <ContentRoute path="/e-commerce/customers" component={CustomersPage} />
-        <ContentRoute path="/e-commerce/products/new" component={ProductEdit} />
+        <ContentRoute path="/crud/customers" component={CustomersPage} />
+        <ContentRoute path="/crud/products/new" component={ProductEdit} />
         <ContentRoute
-          path="/e-commerce/products/:id/edit"
+          path="/crud/products/:id/edit"
           component={ProductEdit}
         />
 
-        <ContentRoute path="/e-commerce/products" component={ProductsPage} />
+        <ContentRoute path="/crud/products" component={ProductsPage} />
+
       </Switch>
     </Suspense>
   );

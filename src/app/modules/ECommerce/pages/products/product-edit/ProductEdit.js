@@ -84,7 +84,7 @@ export function ProductEdit({
   };
 
   const backToProductsList = () => {
-    history.push(`/e-commerce/products`);
+    history.push(`/crud/products`);
   };
 
   return (

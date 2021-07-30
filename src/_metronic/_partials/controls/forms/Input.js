@@ -18,14 +18,14 @@ export function Input({
   field, // { name, value, onChange, onBlur }
   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   label,
-  withFeedbackLabel = true,
+  withFeedbackLabel = false,
   customFeedbackLabel,
   type = "text",
   ...props
 }) {
   return (
     <>
-      {label && <label>Enter {label}</label>}
+      {label && <label>{label} را وارد کنید</label>}
       <input
         type={type}
         className={getFieldCSSClasses(touched[field.name], errors[field.name])}

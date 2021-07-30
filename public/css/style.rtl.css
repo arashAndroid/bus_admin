@@ -1,0 +1,23 @@
+@font-face {
+    font-family: sans;
+    font-style: normal;
+    font-weight: normal;
+    src: url('/../fonts/sans/IRANSansWeb(FaNum).eot');
+    src: url('../fonts/sans/IRANSansWeb(FaNum).eot?#iefix') format('embedded-opentype'), url('../fonts/sans/IRANSansWeb(FaNum).woff2') format('woff2'), url('../fonts/sans/IRANSansWeb(FaNum).woff') format('woff'), url('../fonts/sans/IRANSansWeb(FaNum).ttf') format('truetype');
+}
+
+body {
+    font-family: 'sans' !important;
+    direction: rtl;
+}
+
+.MuiInputBase-input,
+.MuiFormLabel-root,
+.MuiTypography-root,
+.MuiButton-root,
+.MuiAutocomplete-paper,
+.MuiSnackbarContent-root,
+.MuiAlert-root,
+.MuiTableCell-root {
+    font-family: 'sans' !important;
+}

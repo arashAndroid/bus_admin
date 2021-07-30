@@ -531,7 +531,7 @@ export default class FormsExamplesPage extends React.Component {
 
                 <Form.Group as={Row}>
                   <Col sm={{ span: 10, offset: 2 }}>
-                    <Button type="submit">ورود</Button>
+                    <Button type="submit">Sign in</Button>
                   </Col>
                 </Form.Group>
               </Form>
@@ -878,7 +878,7 @@ const jsCode12 = `
 
   <Form.Group as={Row}>
     <Col sm={{ span: 10, offset: 2 }}>
-      <Button type="submit">ورود</Button>
+      <Button type="submit">Sign in</Button>
     </Col>
   </Form.Group>
 </Form>

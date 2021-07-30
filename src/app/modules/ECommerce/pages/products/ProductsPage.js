@@ -11,65 +11,65 @@ import { ProductsUIProvider } from "./ProductsUIContext";
 export function ProductsPage({ history }) {
   const productsUIEvents = {
     newProductButtonClick: () => {
-      history.push("/e-commerce/products/new");
+      history.push("/crud/products/new");
     },
     openEditProductPage: (id) => {
-      history.push(`/e-commerce/products/${id}/edit`);
+      history.push(`/crud/products/${id}/edit`);
     },
     openDeleteProductDialog: (id) => {
-      history.push(`/e-commerce/products/${id}/delete`);
+      history.push(`/crud/products/${id}/delete`);
     },
     openDeleteProductsDialog: () => {
-      history.push(`/e-commerce/products/deleteProducts`);
+      history.push(`/crud/products/deleteProducts`);
     },
     openFetchProductsDialog: () => {
-      history.push(`/e-commerce/products/fetch`);
+      history.push(`/crud/products/fetch`);
     },
     openUpdateProductsStatusDialog: () => {
-      history.push("/e-commerce/products/updateStatus");
+      history.push("/crud/products/updateStatus");
     },
   };
 
   return (
     <ProductsUIProvider productsUIEvents={productsUIEvents}>
       <ProductsLoadingDialog />
-      <Route path="/e-commerce/products/deleteProducts">
+      <Route path="/crud/products/deleteProducts">
         {({ history, match }) => (
           <ProductsDeleteDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/products");
+              history.push("/crud/products");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/products/:id/delete">
+      <Route path="/crud/products/:id/delete">
         {({ history, match }) => (
           <ProductDeleteDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/e-commerce/products");
+              history.push("/crud/products");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/products/fetch">
+      <Route path="/crud/products/fetch">
         {({ history, match }) => (
           <ProductsFetchDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/products");
+              history.push("/crud/products");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/products/updateStatus">
+      <Route path="/crud/products/updateStatus">
         {({ history, match }) => (
           <ProductsUpdateStatusDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/products");
+              history.push("/crud/products");
             }}
           />
         )}

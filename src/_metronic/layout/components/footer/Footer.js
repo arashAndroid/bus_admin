@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { useHtmlClassService } from "../../_core/MetronicLayout";
+import React, {useMemo} from "react";
+import {useHtmlClassService} from "../../_core/MetronicLayout";
 
 export function Footer() {
   const today = new Date().getFullYear();
@@ -28,7 +28,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="text-dark-75 text-hover-primary"
           >
-            Monosense
+            Keenthemes
           </a>
         </div>
         <div className="nav nav-dark order-1 order-md-2">
@@ -38,7 +38,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="nav-link pr-3 pl-0"
           >
-            About Us
+            About
           </a>
           <a
             href="http://keenthemes.com/metronic"
@@ -54,7 +54,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="nav-link pl-3 pr-0"
           >
-            Contact Us
+            Contact
           </a>
         </div>
       </div>

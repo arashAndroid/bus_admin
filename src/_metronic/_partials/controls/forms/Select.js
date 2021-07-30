@@ -17,7 +17,7 @@ const getFieldCSSClasses = (touched, errors) => {
 
 export function Select({
   label,
-  withFeedbackLabel = true,
+  withFeedbackLabel = false,
   type = "text",
   customFeedbackLabel,
   children,
@@ -27,7 +27,7 @@ export function Select({
   const { touched, error } = meta;
   return (
     <>
-      {label && <label>Select {label}</label>}
+      {label && <label>{label} را انتخاب کنید</label>}
       <select
         className={getFieldCSSClasses(touched, error)}
         {...field}

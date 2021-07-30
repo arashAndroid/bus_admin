@@ -1,20 +1,16 @@
 import * as requestFromServer from "./productsCrud";
-import { productsSlice, callTypes } from "./productsSlice";
+import {productsSlice, callTypes} from "./productsSlice";
 
-const { actions } = productsSlice;
+const {actions} = productsSlice;
 
 export const fetchProducts = queryParams => dispatch => {
+
   dispatch(actions.startCall({ callType: callTypes.list }));
   return requestFromServer
     .findProducts(queryParams)
     .then(response => {
-
-      // const { totalCount, entities } = response.data;
-      let totalCount = response.data.length;
-      let entities = response.data;
-
-      // console.log('totalCount', totalCount);
-      // console.log('entities', entities);
+      console.log("response ;::::" , response)
+      const { totalCount, entities } = response.data;
       dispatch(actions.productsFetched({ totalCount, entities }));
     })
     .catch(error => {
@@ -57,14 +53,10 @@ export const deleteProduct = id => dispatch => {
 export const createProduct = productForCreation => dispatch => {
   dispatch(actions.startCall({ callType: callTypes.action }));
   return requestFromServer
-
     .createProduct(productForCreation)
     .then(response => {
-      // console.log('response.data', response.data);
       const { product } = response.data;
-
-      // console.log('product2', { product: response.data });
-      dispatch(actions.productCreated({ product: response.data }));
+      dispatch(actions.productCreated({ product }));
     })
     .catch(error => {
       error.clientMessage = "Can't create product";

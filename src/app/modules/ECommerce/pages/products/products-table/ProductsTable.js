@@ -39,6 +39,8 @@ export function ProductsTable() {
     (state) => ({ currentState: state.products }),
     shallowEqual
   );
+  const { user } = useSelector(state => state.auth);
+
   const { totalCount, entities, listLoading } = currentState;
   // Products Redux state
   const dispatch = useDispatch();

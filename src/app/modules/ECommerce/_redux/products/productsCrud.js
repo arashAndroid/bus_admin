@@ -1,18 +1,15 @@
 import axios from "axios";
 
-export const PRODUCTS_URL = "http://api.monosens.com/api/products";
+export const PRODUCTS_URL = "api/products";
 
 // CREATE =>  POST: add a new product to the server
 export function createProduct(product) {
-
-  return axios.post(PRODUCTS_URL, product);
+  return axios.post(PRODUCTS_URL, { product });
 }
 
 // READ
 export function getAllProducts() {
-  let res = axios.get(PRODUCTS_URL);
-  console.log("getAllProducts", res);
-  return res;
+  return axios.get(PRODUCTS_URL);
 }
 
 export function getProductById(productId) {
@@ -22,15 +19,12 @@ export function getProductById(productId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export function findProducts(queryParams) {
-  // return axios.post(`${PRODUCTS_URL}/find`, { queryParams });
-  // let res = axios.get(PRODUCTS_URL);
-  console.log("findProducts");
-  return axios.get(PRODUCTS_URL);
+  return axios.post(`${PRODUCTS_URL}/find`, { queryParams });
 }
 
 // UPDATE => PUT: update the procuct on the server
 export function updateProduct(product) {
-  return axios.put(`${PRODUCTS_URL}/${product.id}`, product);
+  return axios.put(`${PRODUCTS_URL}/${product.id}`, { product });
 }
 
 // UPDATE Status

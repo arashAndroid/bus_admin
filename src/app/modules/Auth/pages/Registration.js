@@ -2,21 +2,16 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { connect } from "react-redux";
 import * as Yup from "yup";
-import { FormControl, InputLabel, Select } from '@material-ui/core'
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
 
 const initialValues = {
-  first_name: "",
-  last_name: "",
+  fullname: "",
   email: "",
-  name: "",
-  phone: "",
-  company_name: "",
+  username: "",
   password: "",
-  role: "",
   changepassword: "",
   acceptTerms: false,
 };
@@ -24,35 +19,10 @@ const initialValues = {
 function Registration(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState("");
   const RegistrationSchema = Yup.object().shape({
-    first_name: Yup.string()
-      .min(2, "Minimum 2 symbols")
+    fullname: Yup.string()
+      .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-    last_name: Yup.string()
-      .min(2, "Minimum 2 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-    company_name: Yup.string()
-      .min(2, "Minimum 2 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-    phone: Yup.string()
-      .min(10, "Minimum 10 symbols")
-      .max(12, "Maximum 12 symbols")
       .required(
         intl.formatMessage({
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
@@ -67,16 +37,9 @@ function Registration(props) {
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
         })
       ),
-    name: Yup.string()
+    username: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-
-    role: Yup.string()
       .required(
         intl.formatMessage({
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
@@ -112,10 +75,6 @@ function Registration(props) {
     setLoading(true);
   };
 
-  const handleChange = (e) => {
-    setRole(e.target.value)
-  }
-
   const disableLoading = () => {
     setLoading(false);
   };
@@ -137,26 +96,16 @@ function Registration(props) {
     validationSchema: RegistrationSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
       enableLoading();
-      register(values.email, values.first_name, values.last_name, values.phone, values.company_name, values.name, values.password, values.role)
+      register(values.email, values.fullname, values.username, values.password)
         .then(({ data: { accessToken } }) => {
-
           props.register(accessToken);
           disableLoading();
         })
-        .catch((error) => {
-          console.log('error', error);
-
-          // error.then((e) => {
-          //   console.log('message', e);
-          // })
+        .catch(() => {
           setSubmitting(false);
-          // console.log('data', error.response.data);
-          // console.log('message', error.response.data.errors.email[0]);
-
-
           setStatus(
             intl.formatMessage({
-              id: error.response.data.errors.email[0],
+              id: "AUTH.VALIDATION.INVALID_LOGIN",
             })
           );
           disableLoading();
@@ -188,42 +137,24 @@ function Registration(props) {
         )}
         {/* end: Alert */}
 
-        {/* begin: First name */}
+        {/* begin: Fullname */}
         <div className="form-group fv-plugins-icon-container">
           <input
-            placeholder="First name"
+            placeholder="Full name"
             type="text"
             className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "first_name"
+              "fullname"
             )}`}
-            name="first_name"
-            {...formik.getFieldProps("first_name")}
+            name="fullname"
+            {...formik.getFieldProps("fullname")}
           />
-          {formik.touched.first_name && formik.errors.first_name ? (
+          {formik.touched.fullname && formik.errors.fullname ? (
             <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.first_name}</div>
+              <div className="fv-help-block">{formik.errors.fullname}</div>
             </div>
           ) : null}
         </div>
-        {/* end: First name */}
-        {/* begin: Last Name */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Last Name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "last_name"
-            )}`}
-            name="last_name"
-            {...formik.getFieldProps("last_name")}
-          />
-          {formik.touched.last_name && formik.errors.last_name ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.last_name}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: Last Name */}
+        {/* end: Fullname */}
 
         {/* begin: Email */}
         <div className="form-group fv-plugins-icon-container">
@@ -250,83 +181,18 @@ function Registration(props) {
             placeholder="User name"
             type="text"
             className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "name"
+              "username"
             )}`}
-            name="name"
-            {...formik.getFieldProps("name")}
+            name="username"
+            {...formik.getFieldProps("username")}
           />
-          {formik.touched.name && formik.errors.name ? (
+          {formik.touched.username && formik.errors.username ? (
             <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.name}</div>
+              <div className="fv-help-block">{formik.errors.username}</div>
             </div>
           ) : null}
         </div>
         {/* end: Username */}
-        {/* begin: Phone */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Phone"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "phone"
-            )}`}
-            name="phone"
-            {...formik.getFieldProps("phone")}
-          />
-          {formik.touched.phone && formik.errors.phone ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.phone}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: phone */}
-        {/* begin: Company name */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Company name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "company_name"
-            )}`}
-            name="company_name"
-            {...formik.getFieldProps("company_name")}
-          />
-          {formik.touched.company_name && formik.errors.company_name ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.company_name}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: Company name */}
-
-
-        {/* begin: role */}
-        <div className="form-group fv-plugins-icon-container">
-
-
-          <select className="form-control form-control-solid h-auto py-5 px-6"
-            placeholder="Select Role" name="role"
-            id="role" form="roleForm"
-            onChange={handleChange}
-            value={role}
-            {...formik.getFieldProps("role")}
-
-          >
-            <option className="selectRole" value="">Select Role</option>
-            <option value="1">Admin</option>
-            <option value="2">Customer</option>
-            <option value="3">Serviceman</option>
-            <option value="4">Supplier</option>
-          </select>
-
-
-          {formik.touched.role && formik.errors.role ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.role}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: role */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">

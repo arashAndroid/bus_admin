@@ -12,86 +12,86 @@ import { CustomersCard } from "./CustomersCard";
 export function CustomersPage({ history }) {
   const customersUIEvents = {
     newCustomerButtonClick: () => {
-      history.push("/e-commerce/customers/new");
+      history.push("/crud/customers/new");
     },
     openEditCustomerDialog: (id) => {
-      history.push(`/e-commerce/customers/${id}/edit`);
+      history.push(`/crud/customers/${id}/edit`);
     },
     openDeleteCustomerDialog: (id) => {
-      history.push(`/e-commerce/customers/${id}/delete`);
+      history.push(`/crud/customers/${id}/delete`);
     },
     openDeleteCustomersDialog: () => {
-      history.push(`/e-commerce/customers/deleteCustomers`);
+      history.push(`/crud/customers/deleteCustomers`);
     },
     openFetchCustomersDialog: () => {
-      history.push(`/e-commerce/customers/fetch`);
+      history.push(`/crud/customers/fetch`);
     },
     openUpdateCustomersStatusDialog: () => {
-      history.push("/e-commerce/customers/updateStatus");
+      history.push("/crud/customers/updateStatus");
     }
   }
 
   return (
     <CustomersUIProvider customersUIEvents={customersUIEvents}>
       <CustomersLoadingDialog />
-      <Route path="/e-commerce/customers/new">
+      <Route path="/crud/customers/new">
         {({ history, match }) => (
           <CustomerEditDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/customers/:id/edit">
+      <Route path="/crud/customers/:id/edit">
         {({ history, match }) => (
           <CustomerEditDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/customers/deleteCustomers">
+      <Route path="/crud/customers/deleteCustomers">
         {({ history, match }) => (
           <CustomersDeleteDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/customers/:id/delete">
+      <Route path="/crud/customers/:id/delete">
         {({ history, match }) => (
           <CustomerDeleteDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/customers/fetch">
+      <Route path="/crud/customers/fetch">
         {({ history, match }) => (
           <CustomersFetchDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/customers/updateStatus">
+      <Route path="/crud/customers/updateStatus">
         {({ history, match }) => (
           <CustomersUpdateStateDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/customers");
+              history.push("/crud/customers");
             }}
           />
         )}

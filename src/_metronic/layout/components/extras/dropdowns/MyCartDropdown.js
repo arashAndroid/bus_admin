@@ -16,7 +16,6 @@ const perfectScrollbarOptions = {
 export function MyCartDropdown() {
   const bgImage = toAbsoluteUrl("/media/misc/bg-1.jpg");
   return (
-
     <Dropdown drop="down" alignRight>
       <Dropdown.Toggle
         as={DropdownTopbarItemToggler}

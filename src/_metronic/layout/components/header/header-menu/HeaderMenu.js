@@ -21,19 +21,7 @@ export function HeaderMenu({ layoutProps }) {
             {/*begin::1 Level*/}
             <li className={`menu-item menu-item-rel ${getMenuItemActive('/dashboard')}`}>
                 <NavLink className="menu-link" to="/dashboard">
-                    <span className="menu-text">Dashboard</span>
-                    {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
-                </NavLink>
-            </li>
-            <li className={`menu-item menu-item-rel ${getMenuItemActive('/dashboard')}`}>
-                <NavLink className="menu-link" to="/dashboard">
-                    <span className="menu-text">Devices</span>
-                    {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
-                </NavLink>
-            </li>
-            <li className={`menu-item menu-item-rel ${getMenuItemActive('/dashboard')}`}>
-                <NavLink className="menu-link" to="/dashboard">
-                    <span className="menu-text">Alarms</span>
+                    <span className="menu-text">داشبورد</span>
                     {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
                 </NavLink>
             </li>

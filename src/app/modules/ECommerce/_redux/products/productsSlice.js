@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialProductsState = {
   listLoading: false,
@@ -51,7 +51,6 @@ export const productsSlice = createSlice({
     productCreated: (state, action) => {
       state.actionsLoading = false;
       state.error = null;
-      // console.log('action.payload.product', action.payload.product);
       state.entities.push(action.payload.product);
     },
     // updateProduct

@@ -1,9 +1,8 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import { reduxBatch } from "@manaflair/redux-batch";
-import { persistStore } from "redux-persist";
-import { rootReducer, rootSaga } from "./rootReducer";
-import { reducer as reduxFormReducer } from 'redux-form';
+import {reduxBatch} from "@manaflair/redux-batch";
+import {persistStore} from "redux-persist";
+import {rootReducer, rootSaga} from "./rootReducer";
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [
@@ -17,7 +16,6 @@ const middleware = [
 
 const store = configureStore({
   reducer: rootReducer,
-  form: reduxFormReducer,
   middleware,
   devTools: process.env.NODE_ENV !== "production",
   enhancers: [reduxBatch]

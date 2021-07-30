@@ -1,15 +1,15 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/img-redundant-alt */
-import React, { useMemo, useState } from "react";
-import { Formik } from "formik";
-import { get, merge } from "lodash";
-import { FormHelperText, Switch } from "@material-ui/core";
+import React, {useMemo, useState} from "react";
+import {Formik} from "formik";
+import {get, merge} from "lodash";
+import {FormHelperText, Switch} from "@material-ui/core";
 import clsx from "clsx";
 // https://github.com/conorhastings/react-syntax-highlighter#prism
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 // See https://github.com/PrismJS/prism-themes
-import { coy as highlightStyle } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useHtmlClassService, setLayoutConfig, getInitLayoutConfig } from "../../layout";
-import { Card, CardBody, CardHeader, Notice } from "../controls";
+import {coy as highlightStyle} from "react-syntax-highlighter/dist/esm/styles/prism";
+import {useHtmlClassService, setLayoutConfig, getInitLayoutConfig} from "../../layout";
+import {Card, CardBody, CardHeader, Notice} from "../controls";
 
 const localStorageActiveTabKey = "builderActiveTab";
 
@@ -55,7 +55,7 @@ export function Builder() {
                     setLayoutConfig(getInitLayoutConfig());
                 }}
             >
-                {({ values, handleReset, handleSubmit, handleChange, handleBlur }) => (
+                {({values, handleReset, handleSubmit, handleChange, handleBlur}) => (
                     <>
                         <div className="card card-custom">
                             {/*Header*/}
@@ -262,7 +262,7 @@ export function Builder() {
 
                                             <div className="form-group row">
                                                 <label className="col-lg-3 col-form-label text-lg-right">
-                                                    Fixed :
+                                                    Fixed Subheader:
                                                 </label>
                                                 <div className="col-lg-9 col-xl-4">
                                                     <Switch
@@ -504,7 +504,7 @@ export function Builder() {
                                                 onClick={handleSubmit}
                                                 className={`btn btn-primary font-weight-bold mr-2`}
                                             >
-                                                <i className="la la-eye" /> Preview
+                                                <i className="la la-eye"/> Preview
                                             </button>
                                             {" "}
                                             <button
@@ -512,7 +512,7 @@ export function Builder() {
                                                 onClick={handleReset}
                                                 className={`btn btn-clean font-weight-bold mr-2`}
                                             >
-                                                <i className="la la-recycle" /> Reset
+                                                <i className="la la-recycle"/> Reset
                                             </button>
                                             {" "}
                                             <span

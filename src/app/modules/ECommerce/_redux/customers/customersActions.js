@@ -1,20 +1,20 @@
 import * as requestFromServer from "./customersCrud";
-import { customersSlice, callTypes } from "./customersSlice";
+import {customersSlice, callTypes} from "./customersSlice";
 
-const { actions } = customersSlice;
+const {actions} = customersSlice;
 
 export const fetchCustomers = queryParams => dispatch => {
-  // dispatch(actions.startCall({ callType: callTypes.list }));
-  // return requestFromServer
-  //   .findCustomers(queryParams)
-  //   .then(response => {
-  //     const { totalCount, entities } = response.data;
-  //     dispatch(actions.customersFetched({ totalCount, entities }));
-  //   })
-  //   .catch(error => {
-  //     error.clientMessage = "Can't find customers";
-  //     dispatch(actions.catchError({ error, callType: callTypes.list }));
-  //   });
+  dispatch(actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .findCustomers(queryParams)
+    .then(response => {
+      const { totalCount, entities } = response.data;
+      dispatch(actions.customersFetched({ totalCount, entities }));
+    })
+    .catch(error => {
+      error.clientMessage = "Can't find customers";
+      dispatch(actions.catchError({ error, callType: callTypes.list }));
+    });
 };
 
 export const fetchCustomer = id => dispatch => {

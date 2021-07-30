@@ -21,14 +21,14 @@ export function CustomersCard() {
 
   return (
     <Card>
-      <CardHeader title="Serviceman list">
+      <CardHeader title="Customers list">
         <CardHeaderToolbar>
           <button
             type="button"
             className="btn btn-primary"
             onClick={customersUIProps.newCustomerButtonClick}
           >
-            New ServiceMan
+            New Customer
           </button>
         </CardHeaderToolbar>
       </CardHeader>
