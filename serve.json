@@ -1,0 +1,15 @@
+{
+  "public": "_site",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/monosense/demo1"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/monosense/demo1/**",
+      "destination": "/monosense/demo1/index.html"
+    }
+  ]
+}
