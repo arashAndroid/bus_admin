@@ -2,8 +2,8 @@ import axios from "axios";
 import config from "../../../../config/config";
 
 export const LOGIN_URL = config.baseUrl + "auth/signin";
+export const REGISTER_URL = config.baseUrl + "auth/signup";
 export const LOGIN_MOBILE_URL = config.baseUrl + "fast_login_with_mobile";
-export const REGISTER_URL = config.baseUrl + "fast_signup";
 export const VERIFY_URL = config.baseUrl + "fast_user_verification";
 export const REQUEST_PASSWORD_URL = config.baseUrl + "api/auth/forgot-password";
 
@@ -12,8 +12,8 @@ export const ME_URL = "api/me";
 export function login(phone, password) {
 
   let intext = {
-    Phone: phone,
-    Password: password
+    username: phone,
+    password: password
   }
   return axios.post(LOGIN_URL, intext);
 }

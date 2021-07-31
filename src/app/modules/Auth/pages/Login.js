@@ -140,7 +140,7 @@ function Login(props) {
                 </h3>
                 <p className="text-muted font-weight-bold">
                     {/* <FormattedMessage id="AUTH.LOGIN.TITLE2"/> */}
-                      پنل مدیریت
+                    پنل مدیریت
                 </p>
             </div>
             {/* end::Head */}

@@ -1,6 +1,6 @@
 const config = {
   // baseUrl: '//ls.arian.co.ir:3003/rpc/',
-  baseUrl: "//localhost:8080/api/v1/",
+  baseUrl: "//localhost:8085/api/",
   // baseUrl: '//ebusapi.arian.co.ir:3003/',
 };
 
