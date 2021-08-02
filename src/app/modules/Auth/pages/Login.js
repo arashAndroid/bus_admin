@@ -76,7 +76,8 @@ function Login(props) {
                     } else if (status === 200) {
 
                         props.login(response);
-                        let tokenTime = response["AccessTokenExpireTime"];
+                        // console.log("kazeeeeeeeeeeeeeeeeem", response.data.accessTokenExpireTime);
+                        let tokenTime = response.data.accessTokenExpireTime;
                         console.log("login log AccessTokenExpireTime", tokenTime);
 
                         localStorage.setItem("tokenTime", tokenTime);

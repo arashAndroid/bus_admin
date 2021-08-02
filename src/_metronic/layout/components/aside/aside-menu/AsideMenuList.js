@@ -45,135 +45,18 @@ export function AsideMenuList({ layoutProps }) {
             <ul className="menu-subnav">
               <ul className="menu-subnav">
                 <li className={`menu-item ${getMenuItemActive(
-                  "/countries"
+                  "/cities"
                 )}`}
                   aria-haspopup="true">
-                  <NavLink className="menu-link" to="/countries">
+                  <NavLink className="menu-link" to="/cities">
                     <span className="svg-icon menu-icon" >
                       <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")} />
-                    </span>
-                    <span className="menu-text" > کشور ها </span>
-                  </NavLink>
-                </li>
-                { /*end::2 Level*/}
-                { /*begin::2 Level*/}
-                <li className={`menu-item ${getMenuItemActive(
-                  "/provinces"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/provinces" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > استان ها </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/townships"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/townships" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
                     </span>
                     <span className="menu-text" > شهر ها </span>
                   </NavLink>
                 </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/car_brands"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/car_brands" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > برندهای خودرو </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/car_types"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/car_types" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > انواع خودرو </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/cars"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/cars" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > خودرو ها </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/drivers"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/drivers" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > رانندگان </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/servants"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/servants" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > خدمه </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/stations"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/stations" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > ایستگاه ها </span>
-                  </NavLink>
-                </li>
-                <li className={`menu-item ${getMenuItemActive(
-                  "/directions"
-                )}`}
-                  aria-haspopup="true" >
-                  <NavLink className="menu-link"
-                    to="/directions" >
-                    < span className="svg-icon menu-icon" >
-                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")}
-                      />
-                    </span>
-                    <span className="menu-text" > مسیر ها </span>
-                  </NavLink>
-                </li>
+                { /*end::2 Level*/}
+
                 { /*end::2 Level*/}
               </ul>
             </ul>

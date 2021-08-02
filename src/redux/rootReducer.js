@@ -2,7 +2,7 @@ import { all } from "redux-saga/effects";
 import { combineReducers } from "redux";
 
 import * as auth from "../app/modules/Auth/_redux/authRedux";
-import * as countries from "../app/modules/BasicInformation/countries/_redux/countriesRedux";
+import * as cities from "../app/modules/BasicInformation/cities/_redux/citiesRedux";
 import * as provinces from "../app/modules/BasicInformation/provinces/_redux/provincesRedux";
 import * as townships from "../app/modules/BasicInformation/townships/_redux/townshipsRedux";
 import * as carBrands from "../app/modules/BasicInformation/carBrands/_redux/carBrandsRedux";
@@ -17,7 +17,7 @@ import * as details from "../app/modules/BasicInformation/details/_redux/details
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
-  countries: countries.reducer,
+  cities: cities.reducer,
   provinces: provinces.reducer,
   townships: townships.reducer,
   carBrands: carBrands.reducer,
@@ -28,7 +28,7 @@ export const rootReducer = combineReducers({
   stations: stations.reducer,
   directions: directions.reducer,
   travels: travels.reducer,
-  details:details.reducer
+  details: details.reducer
 
 });
 

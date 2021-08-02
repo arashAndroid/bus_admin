@@ -29,8 +29,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
-import * as countries from "./_redux/countriesRedux";
-import { getAllCountries, addCountry, deleteCountry, editCountry } from "./_redux/countriesCrud";
+import * as cities from "./_redux/citiesRedux";
+import { getAllCities, addCity, deleteCity, editCity } from "./_redux/citiesCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -49,25 +49,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function CountriesTable(props) {
+function CitiesTable(props) {
     console.log("props", props)
 
 
     let { state } = useSelector(
         (state) => ({
-            state: state.countries
+            state: state.cities
         }),
         shallowEqual
     );
     const { user } = useSelector(state => state.auth);
 
 
-    console.log("countries", state)
+    console.log("cities", state)
 
     const history = useHistory();
 
-    if (!state.isCountriesLoaded) {
-        getAllCountries(user).then(res => {
+    if (!state.isCitiesLoaded) {
+        getAllCities(user).then(res => {
             if (res.data.Message == "unauthorized") {
                 console.log("+++", res.data);
                 return <Switch>
@@ -77,8 +77,8 @@ function CountriesTable(props) {
                     <Redirect to="/auth/login" />
                 </Switch>;
             } else {
-                props.getAllCountries(res.data.Data)
-                console.log("state :::", state.countries[0])
+                props.getAllCities(res.data.Data)
+                console.log("state :::", state.cities[0])
             }
 
         })
@@ -167,10 +167,10 @@ function CountriesTable(props) {
 
     };
 
-    const removeCountry = (id) => {
-        deleteCountry(user, id).then(res => {
-            getAllCountries(user).then(res => {
-                props.getAllCountries(res.data.Data)
+    const removeCity = (id) => {
+        deleteCity(user, id).then(res => {
+            getAllCities(user).then(res => {
+                props.getAllCities(res.data.Data)
 
             })
         })
@@ -203,7 +203,7 @@ function CountriesTable(props) {
                             onClick={handleClickOpen}
                         >
                             کشور جدید
-          </button>
+                        </button>
                     </CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
@@ -218,7 +218,7 @@ function CountriesTable(props) {
 
                     <ToolkitProvider
                         keyField="Id"
-                        data={state.countries.countries ?? []}
+                        data={state.cities.cities ?? []}
                         columns={columns}
                         search
 
@@ -265,10 +265,10 @@ function CountriesTable(props) {
                 <DialogActions>
                     <Button onClick={handleClose}>
                         انصراف
-          </Button>
-                    <Button onClick={() => removeCountry(current.Id)} className="btn btn-danger" color="danger">
+                    </Button>
+                    <Button onClick={() => removeCity(current.Id)} className="btn btn-danger" color="danger">
                         حذف
-          </Button>
+                    </Button>
                 </DialogActions>
             </Dialog>
 
@@ -279,18 +279,18 @@ function CountriesTable(props) {
                 // validationSchema={CustomerEditSchema}
                 onSubmit={(values) => {
                     if (!editMode) {
-                        addCountry(user, values).then(res => {
-                            getAllCountries(user).then(res => {
-                                props.getAllCountries(res.data.Data)
+                        addCity(user, values).then(res => {
+                            getAllCities(user).then(res => {
+                                props.getAllCities(res.data.Data)
                             })
                         })
                         setEditOpen(false)
                         setCurrent({})
                     }
                     else if (editMode) {
-                        editCountry(user, values).then(res => {
-                            getAllCountries(user).then(res => {
-                                props.getAllCountries(res.data.Data)
+                        editCity(user, values).then(res => {
+                            getAllCities(user).then(res => {
+                                props.getAllCities(res.data.Data)
                             })
                         })
                         setEditOpen(false)
@@ -333,10 +333,10 @@ function CountriesTable(props) {
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => handleEditClose()}>
                                     انصراف
-                             </Button>
+                                </Button>
                                 <Button className="btn btn-primary" variant="primary" onClick={() => handleSubmit()}>
                                     ثبت
-                                  </Button>
+                                </Button>
                             </Modal.Footer>
                         </Modal>
                     </>
@@ -349,4 +349,4 @@ function CountriesTable(props) {
         </>
     );
 }
-export default injectIntl(connect(null, countries.actions)(CountriesTable));
+export default injectIntl(connect(null, cities.actions)(CitiesTable));
