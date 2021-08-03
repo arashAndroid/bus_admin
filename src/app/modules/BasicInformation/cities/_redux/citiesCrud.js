@@ -10,7 +10,7 @@ export function getAllCities(user) {
 
 export function addCity(user, data) {
     let body = {
-        title: data.Title
+        title: data.title
     }
     return axios.post(CITY, body);
 }
@@ -24,8 +24,8 @@ export function deleteCity(user, id) {
 
 export function editCity(user, data) {
     let body = {
-        title: data.Title
+        title: data.title
     }
-    return axios.put(CITY + '/' + data.Id, body);
+    return axios.put(CITY + '/' + data.id, body);
 }
 

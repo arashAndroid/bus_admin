@@ -3,6 +3,8 @@ import { combineReducers } from "redux";
 
 import * as auth from "../app/modules/Auth/_redux/authRedux";
 import * as cities from "../app/modules/BasicInformation/cities/_redux/citiesRedux";
+import * as busTypes from "../app/modules/BasicInformation/busTypes/_redux/busTypesRedux";
+import * as buses from "../app/modules/BasicInformation/buses/_redux/busesRedux";
 import * as provinces from "../app/modules/BasicInformation/provinces/_redux/provincesRedux";
 import * as townships from "../app/modules/BasicInformation/townships/_redux/townshipsRedux";
 import * as carBrands from "../app/modules/BasicInformation/carBrands/_redux/carBrandsRedux";
@@ -18,6 +20,8 @@ import * as details from "../app/modules/BasicInformation/details/_redux/details
 export const rootReducer = combineReducers({
   auth: auth.reducer,
   cities: cities.reducer,
+  busTypes: busTypes.reducer,
+  buses: buses.reducer,
   provinces: provinces.reducer,
   townships: townships.reducer,
   carBrands: carBrands.reducer,

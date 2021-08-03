@@ -56,6 +56,30 @@ export function AsideMenuList({ layoutProps }) {
                   </NavLink>
                 </li>
                 { /*end::2 Level*/}
+                <li className={`menu-item ${getMenuItemActive(
+                  "/busTypes"
+                )}`}
+                  aria-haspopup="true">
+                  <NavLink className="menu-link" to="/busTypes">
+                    <span className="svg-icon menu-icon" >
+                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")} />
+                    </span>
+                    <span className="menu-text" >انواع اتوبوس</span>
+                  </NavLink>
+                </li>
+                { /*end::2 Level*/}
+                <li className={`menu-item ${getMenuItemActive(
+                  "/buses"
+                )}`}
+                  aria-haspopup="true">
+                  <NavLink className="menu-link" to="/buses">
+                    <span className="svg-icon menu-icon" >
+                      <SVG src={toAbsoluteUrl("/media/svg/icons/Shopping/Box2.svg")} />
+                    </span>
+                    <span className="menu-text" >اتوبوس</span>
+                  </NavLink>
+                </li>
+                { /*end::2 Level*/}
 
                 { /*end::2 Level*/}
               </ul>

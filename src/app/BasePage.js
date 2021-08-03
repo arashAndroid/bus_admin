@@ -7,6 +7,8 @@ import { BuilderPage } from "./pages/BuilderPage";
 import { MyPage } from "./pages/MyPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import citiesTable from "./modules/BasicInformation/cities/citiesTable";
+import busTypesTable from "./modules/BasicInformation/busTypes/busTypesTable";
+import busesTable from "./modules/BasicInformation/buses/busesTable";
 import provincesTable from "./modules/BasicInformation/provinces/provincesTable";
 import townshipsTable from "./modules/BasicInformation/townships/townshipsTable";
 import carBrandsTable from "./modules/BasicInformation/carBrands/carBrandsTable";
@@ -47,6 +49,8 @@ export default function BasePage() {
         <ContentRoute path="/dashboard" component={DashboardPage} />
         <ContentRoute path="/logout" component={Logout} />
         <ContentRoute path="/cities" component={citiesTable} />
+        <ContentRoute path="/busTypes" component={busTypesTable} />
+        <ContentRoute path="/buses" component={busesTable} />
         <ContentRoute path="/provinces" component={provincesTable} />
         <ContentRoute path="/townships" component={townshipsTable} />
         <ContentRoute path="/car_brands" component={carBrandsTable} />

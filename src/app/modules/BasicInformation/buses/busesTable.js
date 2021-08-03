@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useHistory } from 'react-router-dom';
 import { Redirect, Switch, Route, useLocation } from "react-router-dom";
-import { AuthPage } from "../../../modules/Auth";
+import { AuthPage } from "../../Auth";
 import {
     Card,
     CardBody,
@@ -29,8 +29,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
-import * as cities from "./_redux/citiesRedux";
-import { getAllCities, addCity, deleteCity, editCity } from "./_redux/citiesCrud";
+import * as buses from "./_redux/busesRedux";
+import { getAllBuses, addBus, deleteBus, editBus } from "./_redux/busesCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -38,6 +38,11 @@ import {
     Select,
     DatePickerField,
 } from "../../../../_metronic/_partials/controls";
+
+
+import { getAllBusTypes } from "../busTypes/_redux/busTypesCrud";
+
+
 
 // Validation schema
 const CustomerEditSchema = Yup.object().shape({
@@ -49,25 +54,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function CitiesTable(props) {
+function BusesTable(props) {
     console.log("props", props)
 
 
     let { state } = useSelector(
         (state) => ({
-            state: state.cities
+            state: state.buses
         }),
         shallowEqual
     );
     const { user } = useSelector(state => state.auth);
 
 
-    console.log("cities", state)
+    console.log("buses", state)
 
     const history = useHistory();
 
-    if (!state.isCitiesLoaded) {
-        getAllCities(user).then(res => {
+    if (!state.isBusesLoaded) {
+        getAllBuses(user).then(res => {
             if (res.data.Message == "unauthorized") {
                 console.log("+++", res.data);
                 return <Switch>
@@ -77,11 +82,18 @@ function CitiesTable(props) {
                     <Redirect to="/auth/login" />
                 </Switch>;
             } else {
-                console.log("okdddd");
-                console.log("result is ", res.data.Data);
+                // get all buses
+                props.getAllBuses(res.data.Data);
+                getAllBusTypes(user).then(res => {
+                    props.getAllBusTypes(res.data.Data);
 
-                props.getAllCities(res.data.Data);
-                console.log("state :::", state.cities[0]);
+                    // console.log("SIH111", result.data.Data);
+                    // console.log(state);
+                })
+
+
+                // console.log("result is ", res.data.Data);
+                // console.log("state :::", state.buses[0]);
             }
 
         })
@@ -95,14 +107,34 @@ function CitiesTable(props) {
         sortCaret: sortCaret,
         // filter: textFilter()
 
-    }, {
+    },
+    {
         dataField: 'title',
         text: 'عنوان',
         sort: true,
         // filter: textFilter()
         sortCaret: sortCaret,
-
-
+    },
+    {
+        dataField: 'capacity',
+        text: 'ظرفیت',
+        sort: true,
+        // filter: textFilter()
+        sortCaret: sortCaret,
+    },
+    {
+        dataField: 'plate',
+        text: 'پلاک',
+        sort: true,
+        // filter: textFilter()
+        sortCaret: sortCaret,
+    },
+    {
+        dataField: 'busTypeTitle',
+        text: 'نوع اتوبوس',
+        sort: true,
+        // filter: textFilter()
+        sortCaret: sortCaret,
     },
 
     {
@@ -116,7 +148,7 @@ function CitiesTable(props) {
             return (
                 <>
                     <OverlayTrigger
-                        overlay={<Tooltip id="products-edit-tooltip">ویرایش کشور</Tooltip>}
+                        overlay={<Tooltip id="products-edit-tooltip">ویرایش اتوبوس</Tooltip>}
                     >
                         <a
                             className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -135,7 +167,7 @@ function CitiesTable(props) {
                         </a>
                     </OverlayTrigger>
                     <OverlayTrigger
-                        overlay={<Tooltip id="products-delete-tooltip">حذف کشور</Tooltip>}
+                        overlay={<Tooltip id="products-delete-tooltip">حذف اتوبوس</Tooltip>}
                     >
                         <a
                             className="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -170,10 +202,10 @@ function CitiesTable(props) {
 
     };
 
-    const removeCity = (id) => {
-        deleteCity(user, id).then(res => {
-            getAllCities(user).then(res => {
-                props.getAllCities(res.data.Data)
+    const removeBus = (id) => {
+        deleteBus(user, id).then(res => {
+            getAllBuses(user).then(res => {
+                props.getAllBuses(res.data.Data)
 
             })
         })
@@ -198,14 +230,14 @@ function CitiesTable(props) {
     return (
         <>
             <Card>
-                <CardHeader title="لیست کشور ها">
+                <CardHeader title="لیست اتوبوس ها">
                     <CardHeaderToolbar>
                         <button
                             type="button"
                             className="btn btn-primary"
                             onClick={handleClickOpen}
                         >
-                            کشور جدید
+                            اتوبوس جدید
                         </button>
                     </CardHeaderToolbar>
                 </CardHeader>
@@ -221,7 +253,7 @@ function CitiesTable(props) {
 
                     <ToolkitProvider
                         keyField="id"
-                        data={state.cities.cities ?? []}
+                        data={state.buses.buses ?? []}
                         columns={columns}
                         search
 
@@ -269,7 +301,7 @@ function CitiesTable(props) {
                     <Button onClick={handleClose}>
                         انصراف
                     </Button>
-                    <Button onClick={() => removeCity(current.id)} className="btn btn-danger" color="danger">
+                    <Button onClick={() => removeBus(current.id)} className="btn btn-danger" color="danger">
                         حذف
                     </Button>
                 </DialogActions>
@@ -282,18 +314,18 @@ function CitiesTable(props) {
                 // validationSchema={CustomerEditSchema}
                 onSubmit={(values) => {
                     if (!editMode) {
-                        addCity(user, values).then(res => {
-                            getAllCities(user).then(res => {
-                                props.getAllCities(res.data.Data)
+                        addBus(user, values).then(res => {
+                            getAllBuses(user).then(res => {
+                                props.getAllBuses(res.data.Data)
                             })
                         })
                         setEditOpen(false)
                         setCurrent({})
                     }
                     else if (editMode) {
-                        editCity(user, values).then(res => {
-                            getAllCities(user).then(res => {
-                                props.getAllCities(res.data.Data)
+                        editBus(user, values).then(res => {
+                            getAllBuses(user).then(res => {
+                                props.getAllBuses(res.data.Data)
                             })
                         })
                         setEditOpen(false)
@@ -313,9 +345,9 @@ function CitiesTable(props) {
                                 <Modal.Title>
                                     {
                                         editMode ?
-                                            'ویرایش کشور'
+                                            'ویرایش اتوبوس'
                                             :
-                                            'افزودن کشور'
+                                            'افزودن اتوبوس'
                                     }
                                 </Modal.Title>
                             </Modal.Header>
@@ -330,7 +362,51 @@ function CitiesTable(props) {
                                                 label="عنوان"
                                             />
                                         </div>
+                                        <div className="col-lg-4">
+                                            <Field
+                                                name="plate"
+                                                component={Input}
+                                                placeholder="پلاک"
+                                                label="پلاک"
+                                            />
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <Field
+                                                name="capacity"
+                                                component={Input}
+                                                placeholder="ظرفیت"
+                                                label="ظرفیت"
+                                            />
+                                        </div>
                                     </div>
+
+                                    <div className="col-lg-4">
+                                        <Select name="BusTypeId" label="نوع اتوبوس">
+
+                                            <option>
+                                                انتخاب نوع
+                                            </option>
+                                            {
+
+                                                state.busTypes.busTypes != null ?
+
+
+                                                    state.busTypes.busTypes.map(c => (
+                                                        <option key={c.id} value={c.id}>
+                                                            {c.title}
+                                                        </option>
+                                                    ))
+                                                    :
+
+                                                    <option>
+
+                                                    </option>
+                                            }
+
+
+                                        </Select>
+                                    </div>
+
                                 </Form>
                             </Modal.Body>
                             <Modal.Footer>
@@ -352,4 +428,4 @@ function CitiesTable(props) {
         </>
     );
 }
-export default injectIntl(connect(null, cities.actions)(CitiesTable));
+export default injectIntl(connect(null, buses.actions)(BusesTable));

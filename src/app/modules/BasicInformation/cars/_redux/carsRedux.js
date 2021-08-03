@@ -15,8 +15,8 @@ export const actionTypes = {
 
 const initialCountreiesState = {
     cars: [],
-    brands:[],
-    types:[],
+    brands: [],
+    types: [],
     isCarsLoaded: false,
 };
 
@@ -27,26 +27,26 @@ export const reducer = persistReducer(
             case actionTypes.getAllCars: {
                 console.log("action.payload ::::", action.payload)
                 const cars = action.payload;
-                return { ...state,cars,isCarsLoaded:true };
+                return { ...state, cars, isCarsLoaded: true };
             }
             case actionTypes.getCarBrands: {
                 console.log("action.payload ::::", action.payload)
                 const brands = action.payload;
-                return { ...state,brands };
+                return { ...state, brands };
             }
             case actionTypes.getCarTypes: {
                 console.log("action.payload ::::", action.payload)
                 const types = action.payload;
-                return { ...state,types};
+                return { ...state, types };
             }
             case actionTypes.addCars: {
-                return { ...state};
+                return { ...state };
             }
             case actionTypes.editCars: {
-                return { ...state};
+                return { ...state };
             }
             case actionTypes.deleteCars: {
-                return { ...state};
+                return { ...state };
             }
 
             default:
@@ -64,5 +64,5 @@ export const actions = {
     deleteCars: cars => ({ type: actionTypes.deleteCars, payload: { cars } }),
 
 
-    
+
 };

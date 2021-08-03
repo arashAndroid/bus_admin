@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useHistory } from 'react-router-dom';
 import { Redirect, Switch, Route, useLocation } from "react-router-dom";
-import { AuthPage } from "../../../modules/Auth";
+import { AuthPage } from "../../Auth";
 import {
     Card,
     CardBody,
@@ -29,8 +29,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
-import * as cities from "./_redux/citiesRedux";
-import { getAllCities, addCity, deleteCity, editCity } from "./_redux/citiesCrud";
+import * as busTypes from "./_redux/busTypesRedux";
+import { getAllBusTypes, addBusType, deleteBusType, editBusType } from "./_redux/busTypesCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -49,25 +49,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function CitiesTable(props) {
+function BusTypesTable(props) {
     console.log("props", props)
 
 
     let { state } = useSelector(
         (state) => ({
-            state: state.cities
+            state: state.busTypes
         }),
         shallowEqual
     );
     const { user } = useSelector(state => state.auth);
 
 
-    console.log("cities", state)
+    console.log("busTypes", state)
 
     const history = useHistory();
 
-    if (!state.isCitiesLoaded) {
-        getAllCities(user).then(res => {
+    if (!state.isBusTypesLoaded) {
+        getAllBusTypes(user).then(res => {
             if (res.data.Message == "unauthorized") {
                 console.log("+++", res.data);
                 return <Switch>
@@ -80,8 +80,8 @@ function CitiesTable(props) {
                 console.log("okdddd");
                 console.log("result is ", res.data.Data);
 
-                props.getAllCities(res.data.Data);
-                console.log("state :::", state.cities[0]);
+                props.getAllBusTypes(res.data.Data);
+                console.log("state :::", state.busTypes[0]);
             }
 
         })
@@ -170,10 +170,10 @@ function CitiesTable(props) {
 
     };
 
-    const removeCity = (id) => {
-        deleteCity(user, id).then(res => {
-            getAllCities(user).then(res => {
-                props.getAllCities(res.data.Data)
+    const removeBusType = (id) => {
+        deleteBusType(user, id).then(res => {
+            getAllBusTypes(user).then(res => {
+                props.getAllBusTypes(res.data.Data)
 
             })
         })
@@ -221,7 +221,7 @@ function CitiesTable(props) {
 
                     <ToolkitProvider
                         keyField="id"
-                        data={state.cities.cities ?? []}
+                        data={state.busTypes.busTypes ?? []}
                         columns={columns}
                         search
 
@@ -269,7 +269,7 @@ function CitiesTable(props) {
                     <Button onClick={handleClose}>
                         انصراف
                     </Button>
-                    <Button onClick={() => removeCity(current.id)} className="btn btn-danger" color="danger">
+                    <Button onClick={() => removeBusType(current.id)} className="btn btn-danger" color="danger">
                         حذف
                     </Button>
                 </DialogActions>
@@ -282,18 +282,18 @@ function CitiesTable(props) {
                 // validationSchema={CustomerEditSchema}
                 onSubmit={(values) => {
                     if (!editMode) {
-                        addCity(user, values).then(res => {
-                            getAllCities(user).then(res => {
-                                props.getAllCities(res.data.Data)
+                        addBusType(user, values).then(res => {
+                            getAllBusTypes(user).then(res => {
+                                props.getAllBusTypes(res.data.Data)
                             })
                         })
                         setEditOpen(false)
                         setCurrent({})
                     }
                     else if (editMode) {
-                        editCity(user, values).then(res => {
-                            getAllCities(user).then(res => {
-                                props.getAllCities(res.data.Data)
+                        editBusType(user, values).then(res => {
+                            getAllBusTypes(user).then(res => {
+                                props.getAllBusTypes(res.data.Data)
                             })
                         })
                         setEditOpen(false)
@@ -352,4 +352,4 @@ function CitiesTable(props) {
         </>
     );
 }
-export default injectIntl(connect(null, cities.actions)(CitiesTable));
+export default injectIntl(connect(null, busTypes.actions)(BusTypesTable));
