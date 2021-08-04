@@ -64,10 +64,17 @@ function BusesTable(props) {
         }),
         shallowEqual
     );
+    let Types = useSelector(
+        (state) => ({
+            state: state.busTypes
+        }),
+        shallowEqual
+    );
     const { user } = useSelector(state => state.auth);
 
 
-    console.log("buses", state)
+    // console.log("buses", state.busTypes)
+    // console.log("buses", Types.state.busTypes.busTypes)
 
     const history = useHistory();
 
@@ -85,11 +92,12 @@ function BusesTable(props) {
                 // get all buses
                 props.getAllBuses(res.data.Data);
                 getAllBusTypes(user).then(res => {
+                    // console.log('res::::::::::', res);
                     props.getAllBusTypes(res.data.Data);
 
                     // console.log("SIH111", result.data.Data);
                     // console.log(state);
-                })
+                });
 
 
                 // console.log("result is ", res.data.Data);
@@ -225,7 +233,7 @@ function BusesTable(props) {
 
 
 
-
+    console.log('assaasas', Types)
 
     return (
         <>
@@ -387,15 +395,16 @@ function BusesTable(props) {
                                                 انتخاب نوع
                                             </option>
                                             {
+                                                Types.state.busTypes.busTypes.length != 0 ?
 
-                                                state.busTypes.busTypes != null ?
 
-
-                                                    state.busTypes.busTypes.map(c => (
-                                                        <option key={c.id} value={c.id}>
-                                                            {c.title}
-                                                        </option>
-                                                    ))
+                                                    Types.state.busTypes.busTypes.map(c => {
+                                                        return (
+                                                            <option key={c.id} value={c.id}>
+                                                                {c.title}
+                                                            </option>
+                                                        )
+                                                    })
                                                     :
 
                                                     <option>
