@@ -1,49 +1,46 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { put, takeLatest } from "redux-saga/effects";
+
 
 export const actionTypes = {
     getAllDrivers: "[getAllDrivers] Action",
-    getTownships: "[getTownships] Action",
-    addDrivers: "[addDrivers] Action",
-    editDrivers: "[editDrivers] Action",
-    deleteDrivers: "[deleteDrivers] Action",
+    addDriver: "[addDriver] Action",
+    deleteDriver: "[deleteDriver] Action",
+    editDriver: "[editDriver] Action",
 
 
 };
 
-const initialCountreiesState = {
+const initialDriversState = {
     drivers: [],
-    townships:[],
     isDriversLoaded: false,
 };
 
 export const reducer = persistReducer(
     { storage, key: "v705-demo1-auth", whitelist: ["user", "drivers"] },
-    (state = initialCountreiesState, action) => {
+    (state = initialDriversState, action) => {
         switch (action.type) {
             case actionTypes.getAllDrivers: {
-                console.log("action.payload ::::", action.payload)
+                console.log("action.payload getAllDrivers::::", action.payload)
                 const drivers = action.payload;
-                return { ...state,drivers, isDriversLoaded: true };
+                return { drivers, isDriversLoaded: true };
             }
 
-            case actionTypes.getTownships: {
+            case actionTypes.addDriver: {
                 console.log("action.payload ::::", action.payload)
-                const townships = action.payload;
-                return { ...state,townships };
+                const driver = action.payload;
+                return { drivers: initialDriversState.drivers.push(driver), isDriversLoaded: true };
             }
-            case actionTypes.addDrivers: {
-                return { ...state};
+            case actionTypes.editDriver: {
+                console.log("action.payload ::::", action.payload)
+                const driver = action.payload;
+                return { drivers: initialDriversState.drivers.push(driver), isDriversLoaded: true };
             }
-            case actionTypes.deleteDrivers: {
-                return { ...state};
+            case actionTypes.deleteDriver: {
+                console.log("action.payload ::::", action.payload)
+                const driver = action.payload;
+                return { drivers: initialDriversState.drivers.push(driver), isDriversLoaded: true };
             }
-            case actionTypes.editDrivers: {
-                return { ...state};
-            }
-
-
 
             default:
                 return state;
@@ -53,11 +50,10 @@ export const reducer = persistReducer(
 
 export const actions = {
     getAllDrivers: drivers => ({ type: actionTypes.getAllDrivers, payload: { drivers } }),
-    getTownships: townships => ({ type: actionTypes.getTownships, payload: { townships } }),
-    addDrivers: drivers => ({ type: actionTypes.addDrivers, payload: { drivers } }),
-    editDrivers: drivers => ({ type: actionTypes.editDrivers, payload: { drivers } }),
-    deleteDrivers: drivers => ({ type: actionTypes.deleteDrivers, payload: { drivers } }),
+    addDriver: driver => ({ type: actionTypes.addDriver, payload: { driver } }),
+    editDriver: driver => ({ type: actionTypes.editDriver, payload: { driver } }),
+    deleteDriver: driver => ({ type: actionTypes.deleteDriver, payload: { driver } }),
 
 
-    
 };
+

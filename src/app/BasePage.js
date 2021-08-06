@@ -7,6 +7,7 @@ import { BuilderPage } from "./pages/BuilderPage";
 import { MyPage } from "./pages/MyPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import citiesTable from "./modules/BasicInformation/cities/citiesTable";
+import driversTable from "./modules/BasicInformation/drivers/driversTable";
 import busTypesTable from "./modules/BasicInformation/busTypes/busTypesTable";
 import busesTable from "./modules/BasicInformation/buses/busesTable";
 import provincesTable from "./modules/BasicInformation/provinces/provincesTable";
@@ -14,7 +15,6 @@ import townshipsTable from "./modules/BasicInformation/townships/townshipsTable"
 import carBrandsTable from "./modules/BasicInformation/carBrands/carBrandsTable";
 import carTypesTable from "./modules/BasicInformation/carTypes/carTypesTable";
 import carsTable from "./modules/BasicInformation/cars/carsTable";
-import driversTable from "./modules/BasicInformation/drivers/driversTable";
 import servantsTable from "./modules/BasicInformation/servants/servantsTable";
 import stationsTable from "./modules/BasicInformation/stations/stationsTable";
 import directionsTable from "./modules/BasicInformation/directions/directionsTable";
@@ -49,6 +49,7 @@ export default function BasePage() {
         <ContentRoute path="/dashboard" component={DashboardPage} />
         <ContentRoute path="/logout" component={Logout} />
         <ContentRoute path="/cities" component={citiesTable} />
+        <ContentRoute path="/drivers" component={driversTable} />
         <ContentRoute path="/busTypes" component={busTypesTable} />
         <ContentRoute path="/buses" component={busesTable} />
         <ContentRoute path="/provinces" component={provincesTable} />
@@ -56,7 +57,6 @@ export default function BasePage() {
         <ContentRoute path="/car_brands" component={carBrandsTable} />
         <ContentRoute path="/car_types" component={carTypesTable} />
         <ContentRoute path="/cars" component={carsTable} />
-        <ContentRoute path="/drivers" component={driversTable} />
         <ContentRoute path="/servants" component={servantsTable} />
         <ContentRoute path="/stations" component={stationsTable} />
         <ContentRoute path="/directions" component={directionsTable} />
