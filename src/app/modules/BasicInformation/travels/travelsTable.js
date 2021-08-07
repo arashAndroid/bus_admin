@@ -1,7 +1,4 @@
-import React, { useMemo } from "react";
-import { useHistory } from "react-router-dom";
-import { Redirect, Switch, Route, useLocation } from "react-router-dom";
-import { AuthPage } from "../../Auth";
+import React, { useMemo, useState } from "react";
 import {
   Card,
   CardBody,
@@ -9,6 +6,10 @@ import {
   CardHeaderToolbar,
 } from "../../../../_metronic/_partials/controls";
 import { Modal } from "react-bootstrap";
+import { DatePicker } from "jalali-react-datepicker";
+
+import FormGroup from "@material-ui/core/FormGroup";
+import * as columnFormatters from "./formatters";
 
 import BootstrapTable from "react-bootstrap-table-next";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
@@ -30,12 +31,17 @@ import Slide from "@material-ui/core/Slide";
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as travels from "./_redux/travelsRedux";
+import moment from "moment-jalaali";
+
 import {
   getAllTravels,
-  addTravel,
   deleteTravel,
+  addTravel,
   editTravel,
 } from "./_redux/travelsCrud";
+//  FIX THIS
+// import { getAllCities } from "../busTypes/_redux/busTypesCrud";
+import { getAllCities } from "../cities/_redux/citiesCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -62,30 +68,19 @@ function TravelsTable(props) {
     shallowEqual
   );
   const { user } = useSelector((state) => state.auth);
+  const [expire, setExpire] = useState("");
 
   console.log("travels", state);
 
-  const history = useHistory();
-
   if (!state.isTravelsLoaded) {
-    getAllTravels(user).then((res) => {
-      if (res.data.Message == "unauthorized") {
-        console.log("+++", res.data);
-        return (
-          <Switch>
-            <Route>
-              <AuthPage />
-            </Route>
-            <Redirect to="/auth/login" />
-          </Switch>
-        );
-      } else {
-        console.log("okdddd");
-        console.log("result is ", res.data.Data);
+    getAllTravels().then((res) => {
+      props.getAllTravels(res.data.Data);
 
-        props.getAllTravels(res.data.Data);
-        console.log("state :::", state.travels[0]);
-      }
+      getAllCities().then((res) => {
+        props.getAllCities(res.data.Data);
+      });
+
+      console.log("asdfadssadfsadf klazem");
     });
   }
   const { SearchBar, ClearSearchButton } = Search;
@@ -105,6 +100,57 @@ function TravelsTable(props) {
       // filter: textFilter()
       sortCaret: sortCaret,
     },
+    {
+      dataField: "price",
+      text: "قیمت",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "status",
+      text: "وضعیت",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+
+    {
+      dataField: "destinationId",
+      text: "شهر مقصد",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "sourceId",
+      text: "شهر مبدا",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "busId",
+      text: "اتوبوس",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+    {
+      dataField: "driverId",
+      text: "راننده",
+      sort: true,
+      // filter: textFilter()
+      sortCaret: sortCaret,
+    },
+
+    // {
+    //   dataField: "bus_type[title]",
+    //   text: "نوع اتوبوس",
+    //   sort: true,
+    //   // filter: textFilter()
+    //   sortCaret: sortCaret,
+    // },
 
     {
       dataField: "action",
@@ -116,9 +162,7 @@ function TravelsTable(props) {
         return (
           <>
             <OverlayTrigger
-              overlay={
-                <Tooltip id="products-edit-tooltip">ویرایش سفر</Tooltip>
-              }
+              overlay={<Tooltip id="products-edit-tooltip">ویرایش سفر</Tooltip>}
             >
               <a
                 className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -138,9 +182,7 @@ function TravelsTable(props) {
               </a>
             </OverlayTrigger>
             <OverlayTrigger
-              overlay={
-                <Tooltip id="products-delete-tooltip">حذف سفر</Tooltip>
-              }
+              overlay={<Tooltip id="products-delete-tooltip">حذف سفر</Tooltip>}
             >
               <a
                 className="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -174,14 +216,11 @@ function TravelsTable(props) {
     setEditMode(false);
     setEditOpen(true);
   };
-
-  const removeTravel = (id) => {
-    deleteTravel(user, id).then((res) => {
-      getAllTravels(user).then((res) => {
-        props.getAllTravels(res.data.Data);
-      });
-    });
-    setOpen(false);
+  const expireDate = (event) => {
+    var val = event.value._i;
+    var date = val.substr(0, val.length - 3);
+    setExpire(date);
+    console.log("setExpire val :::: ", date);
   };
 
   const handleClose = () => {
@@ -192,11 +231,26 @@ function TravelsTable(props) {
     setEditOpen(false);
     setEditMode(false);
   };
+  const convertToJalali = (date) => {
+    if (date) {
+      return moment(date.substr(0, 10)).format("jYYYY-jMM-jDD");
+    }
+    return date;
+  };
+
+  const removeTravel = (id) => {
+    deleteTravel(id).then((res) => {
+      getAllTravels().then((res) => {
+        props.getAllTravels(res.data.Data);
+      });
+    });
+    setOpen(false);
+  };
 
   return (
     <>
       <Card>
-        <CardHeader title="لیست سفرها">
+        <CardHeader title="لیست سفر ها">
           <CardHeaderToolbar>
             <button
               type="button"
@@ -274,17 +328,19 @@ function TravelsTable(props) {
         initialValues={current}
         // validationSchema={CustomerEditSchema}
         onSubmit={(values) => {
+          values.expire = expire;
+
           if (!editMode) {
-            addTravel(user, values).then((res) => {
-              getAllTravels(user).then((res) => {
+            addTravel(values).then((res) => {
+              getAllTravels().then((res) => {
                 props.getAllTravels(res.data.Data);
               });
             });
             setEditOpen(false);
             setCurrent({});
           } else if (editMode) {
-            editTravel(user, values).then((res) => {
-              getAllTravels(user).then((res) => {
+            editTravel(values).then((res) => {
+              getAllTravels().then((res) => {
                 props.getAllTravels(res.data.Data);
               });
             });
@@ -311,11 +367,46 @@ function TravelsTable(props) {
                   <div className="form-group row">
                     <div className="col-lg-4">
                       <Field
-                        name="title"
+                        name="departureDatetime"
                         component={Input}
-                        placeholder="عنوان"
-                        label="عنوان"
+                        placeholder="تاریخ حرکت"
+                        label="تاریخ حرکت"
                       />
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Field
+                        name="price"
+                        component={Input}
+                        placeholder="قیمت"
+                        label="قیمت"
+                      />
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Field
+                        type="number"
+                        name="status"
+                        component={Input}
+                        placeholder="وضعیت"
+                        label="وضعیت"
+                      />
+                    </div>
+                    <div className="form-group row">
+                      <div className="col-lg-4">
+                        <Select name="busTypeId" label="سفر">
+                          <option>انتخاب سفر</option>
+                          {state.types.types != null ? (
+                            state.types.types.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.title}
+                              </option>
+                            ))
+                          ) : (
+                            <option></option>
+                          )}
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 </Form>
