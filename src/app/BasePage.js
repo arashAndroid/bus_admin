@@ -10,6 +10,7 @@ import citiesTable from "./modules/BasicInformation/cities/citiesTable";
 import driversTable from "./modules/BasicInformation/drivers/driversTable";
 import busTypesTable from "./modules/BasicInformation/busTypes/busTypesTable";
 import busesTable from "./modules/BasicInformation/buses/busesTable";
+import travelsTable from "./modules/BasicInformation/travels/travelsTable";
 import provincesTable from "./modules/BasicInformation/provinces/provincesTable";
 import townshipsTable from "./modules/BasicInformation/townships/townshipsTable";
 import carBrandsTable from "./modules/BasicInformation/carBrands/carBrandsTable";
@@ -18,7 +19,6 @@ import carsTable from "./modules/BasicInformation/cars/carsTable";
 import servantsTable from "./modules/BasicInformation/servants/servantsTable";
 import stationsTable from "./modules/BasicInformation/stations/stationsTable";
 import directionsTable from "./modules/BasicInformation/directions/directionsTable";
-import travelsTable from "./modules/Travels/travelsTable";
 import detailsTable from "./modules/BasicInformation/details/detailsTable";
 import { Logout, AuthPage } from "./modules/Auth";
 
@@ -52,6 +52,7 @@ export default function BasePage() {
         <ContentRoute path="/drivers" component={driversTable} />
         <ContentRoute path="/busTypes" component={busTypesTable} />
         <ContentRoute path="/buses" component={busesTable} />
+        <ContentRoute path="/travels" component={travelsTable} />
         <ContentRoute path="/provinces" component={provincesTable} />
         <ContentRoute path="/townships" component={townshipsTable} />
         <ContentRoute path="/car_brands" component={carBrandsTable} />
@@ -60,7 +61,6 @@ export default function BasePage() {
         <ContentRoute path="/servants" component={servantsTable} />
         <ContentRoute path="/stations" component={stationsTable} />
         <ContentRoute path="/directions" component={directionsTable} />
-        <ContentRoute path="/travels" component={travelsTable} />
         <ContentRoute path="/details/:id" component={detailsTable} />
 
         <ContentRoute path="/builder" component={BuilderPage} />

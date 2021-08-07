@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { Redirect, Switch, Route, useLocation } from "react-router-dom";
-import { AuthPage } from "../../../modules/Auth";
+import { AuthPage } from "../../Auth";
 import {
   Card,
   CardBody,
@@ -29,13 +29,13 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
-import * as drivers from "./_redux/driversRedux";
+import * as travels from "./_redux/travelsRedux";
 import {
-  getAllDrivers,
-  addDriver,
-  deleteDriver,
-  editDriver,
-} from "./_redux/driversCrud";
+  getAllTravels,
+  addTravel,
+  deleteTravel,
+  editTravel,
+} from "./_redux/travelsCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -52,23 +52,23 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function DriversTable(props) {
+function TravelsTable(props) {
   console.log("props", props);
 
   let { state } = useSelector(
     (state) => ({
-      state: state.drivers,
+      state: state.travels,
     }),
     shallowEqual
   );
   const { user } = useSelector((state) => state.auth);
 
-  console.log("drivers", state);
+  console.log("travels", state);
 
   const history = useHistory();
 
-  if (!state.isDriversLoaded) {
-    getAllDrivers(user).then((res) => {
+  if (!state.isTravelsLoaded) {
+    getAllTravels(user).then((res) => {
       if (res.data.Message == "unauthorized") {
         console.log("+++", res.data);
         return (
@@ -83,8 +83,8 @@ function DriversTable(props) {
         console.log("okdddd");
         console.log("result is ", res.data.Data);
 
-        props.getAllDrivers(res.data.Data);
-        console.log("state :::", state.drivers[0]);
+        props.getAllTravels(res.data.Data);
+        console.log("state :::", state.travels[0]);
       }
     });
   }
@@ -99,23 +99,8 @@ function DriversTable(props) {
       // filter: textFilter()
     },
     {
-      dataField: "firstName",
-      text: "نام",
-      sort: true,
-      // filter: textFilter()
-      sortCaret: sortCaret,
-    },
-
-    {
-      dataField: "lastName",
-      text: "نام خانوادگی",
-      sort: true,
-      // filter: textFilter()
-      sortCaret: sortCaret,
-    },
-    {
-      dataField: "phone",
-      text: "شماره همراه",
+      dataField: "departureDatetime",
+      text: "تاریخ حرکت",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
@@ -132,7 +117,7 @@ function DriversTable(props) {
           <>
             <OverlayTrigger
               overlay={
-                <Tooltip id="products-edit-tooltip">ویرایش راننده‌ها</Tooltip>
+                <Tooltip id="products-edit-tooltip">ویرایش سفر</Tooltip>
               }
             >
               <a
@@ -154,7 +139,7 @@ function DriversTable(props) {
             </OverlayTrigger>
             <OverlayTrigger
               overlay={
-                <Tooltip id="products-delete-tooltip">حذف راننده‌ها</Tooltip>
+                <Tooltip id="products-delete-tooltip">حذف سفر</Tooltip>
               }
             >
               <a
@@ -190,10 +175,10 @@ function DriversTable(props) {
     setEditOpen(true);
   };
 
-  const removeDriver = (id) => {
-    deleteDriver(user, id).then((res) => {
-      getAllDrivers(user).then((res) => {
-        props.getAllDrivers(res.data.Data);
+  const removeTravel = (id) => {
+    deleteTravel(user, id).then((res) => {
+      getAllTravels(user).then((res) => {
+        props.getAllTravels(res.data.Data);
       });
     });
     setOpen(false);
@@ -211,14 +196,14 @@ function DriversTable(props) {
   return (
     <>
       <Card>
-        <CardHeader title="لیست راننده‌ها">
+        <CardHeader title="لیست سفرها">
           <CardHeaderToolbar>
             <button
               type="button"
               className="btn btn-primary"
               onClick={handleClickOpen}
             >
-              راننده‌ جدید
+              سفر جدید
             </button>
           </CardHeaderToolbar>
         </CardHeader>
@@ -233,7 +218,7 @@ function DriversTable(props) {
 
           <ToolkitProvider
             keyField="id"
-            data={state.drivers.drivers ?? []}
+            data={state.travels.travels ?? []}
             columns={columns}
             search
           >
@@ -267,7 +252,7 @@ function DriversTable(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          {"آیا واقعا قصد حذف این راننده‌ را دارید ؟"}
+          {"آیا واقعا قصد حذف این سفر را دارید ؟"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
@@ -275,7 +260,7 @@ function DriversTable(props) {
         <DialogActions>
           <Button onClick={handleClose}>انصراف</Button>
           <Button
-            onClick={() => removeDriver(current.id)}
+            onClick={() => removeTravel(current.id)}
             className="btn btn-danger"
             color="danger"
           >
@@ -290,17 +275,17 @@ function DriversTable(props) {
         // validationSchema={CustomerEditSchema}
         onSubmit={(values) => {
           if (!editMode) {
-            addDriver(user, values).then((res) => {
-              getAllDrivers(user).then((res) => {
-                props.getAllDrivers(res.data.Data);
+            addTravel(user, values).then((res) => {
+              getAllTravels(user).then((res) => {
+                props.getAllTravels(res.data.Data);
               });
             });
             setEditOpen(false);
             setCurrent({});
           } else if (editMode) {
-            editDriver(user, values).then((res) => {
-              getAllDrivers(user).then((res) => {
-                props.getAllDrivers(res.data.Data);
+            editTravel(user, values).then((res) => {
+              getAllTravels(user).then((res) => {
+                props.getAllTravels(res.data.Data);
               });
             });
             setEditOpen(false);
@@ -318,7 +303,7 @@ function DriversTable(props) {
             <Modal show={editOpen} onHide={handleEditClose}>
               <Modal.Header closeButton>
                 <Modal.Title>
-                  {editMode ? "ویرایش راننده‌" : "افزودن راننده‌"}
+                  {editMode ? "ویرایش سفر" : "افزودن سفر"}
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
@@ -326,31 +311,13 @@ function DriversTable(props) {
                   <div className="form-group row">
                     <div className="col-lg-4">
                       <Field
-                        name="firstName"
+                        name="title"
                         component={Input}
-                        placeholder="نام"
-                        label="نام"
-                      />
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Field
-                        name="lastName"
-                        component={Input}
-                        placeholder="نام خانوادگی"
-                        label="نام خانوادگی"
-                      />
-                    </div>
-                    <div className="col-lg-4">
-                      <Field
-                        name="phone"
-                        component={Input}
-                        placeholder="شماره همراه"
-                        label="شماره همراه"
+                        placeholder="عنوان"
+                        label="عنوان"
                       />
                     </div>
                   </div>
-
                 </Form>
               </Modal.Body>
               <Modal.Footer>
@@ -372,4 +339,4 @@ function DriversTable(props) {
     </>
   );
 }
-export default injectIntl(connect(null, drivers.actions)(DriversTable));
+export default injectIntl(connect(null, travels.actions)(TravelsTable));
