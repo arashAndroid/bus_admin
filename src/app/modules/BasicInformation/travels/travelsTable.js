@@ -76,11 +76,11 @@ function TravelsTable(props) {
     getAllTravels().then((res) => {
       props.getAllTravels(res.data.Data);
 
+      console.log("STATE is");
+
       getAllCities().then((res) => {
         props.getAllCities(res.data.Data);
       });
-
-      console.log("asdfadssadfsadf klazem");
     });
   }
   const { SearchBar, ClearSearchButton } = Search;
@@ -116,28 +116,28 @@ function TravelsTable(props) {
     },
 
     {
-      dataField: "destinationId",
+      dataField: "destination.title",
       text: "شهر مقصد",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "sourceId",
+      dataField: "source.title",
       text: "شهر مبدا",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "busId",
+      dataField: "bus.title",
       text: "اتوبوس",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "driverId",
+      dataField: "driver.firstName",
       text: "راننده",
       sort: true,
       // filter: textFilter()
@@ -384,29 +384,54 @@ function TravelsTable(props) {
                     </div>
 
                     <div className="col-lg-4">
-                      <Field
+                      {/* <Field
                         type="number"
                         name="status"
                         component={Input}
                         placeholder="وضعیت"
                         label="وضعیت"
-                      />
+                      /> */}
+                      <Select name="status" label="وضعیت">
+                        <option>انتخاب وضعیت</option>
+                        <option key={0} value={0}>
+                          غیر فعال
+                        </option>
+                        <option key={1} value={1}>
+                          فعال
+                        </option>
+                      </Select>
                     </div>
-                    <div className="form-group row">
-                      <div className="col-lg-4">
-                        <Select name="busTypeId" label="سفر">
-                          <option>انتخاب سفر</option>
-                          {state.types.types != null ? (
-                            state.types.types.map((c) => (
-                              <option key={c.id} value={c.id}>
-                                {c.title}
-                              </option>
-                            ))
-                          ) : (
-                            <option></option>
-                          )}
-                        </Select>
-                      </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-lg-4">
+                      <Select name="sourceId" label="مبدا">
+                        <option>انتخاب شهر</option>
+                        {state.cities.cities != null ? (
+                          state.cities.cities.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.title}
+                            </option>
+                          ))
+                        ) : (
+                          <option></option>
+                        )}
+                      </Select>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Select name="destinationId" label="مقصد">
+                        <option>انتخاب شهر</option>
+                        {state.cities.cities != null ? (
+                          state.cities.cities.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.title}
+                            </option>
+                          ))
+                        ) : (
+                          <option></option>
+                        )}
+                      </Select>
                     </div>
                   </div>
                 </Form>

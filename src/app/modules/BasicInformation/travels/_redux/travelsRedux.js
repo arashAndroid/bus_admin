@@ -5,16 +5,20 @@ import { put, takeLatest } from "redux-saga/effects";
 export const actionTypes = {
   getAllTravels: "[getAllTravels] Action",
   getTravelTypes: "[getTravelTypes] Action",
-  getTravelBrands: "[getTravelBrands] Action",
+  getAllCities: "[getAllCities] Action",
   addTravels: "[addTravels] Action",
   editTravels: "[editTravels] Action",
   deleteTravels: "[deleteTravels] Action",
+  
+  getAllDrivers: "[getAllDrivers] Action",
+
 };
 
 const initialCountreiesState = {
   travels: [],
-  brands: [],
+  cities: [],
   types: [],
+  Drivers: [],
   isTravelsLoaded: false,
 };
 
@@ -27,11 +31,6 @@ export const reducer = persistReducer(
         const travels = action.payload;
         return { ...state, travels, isTravelsLoaded: true };
       }
-      case actionTypes.getTravelTypes: {
-        console.log("action.payload ::::", action.payload);
-        const types = action.payload;
-        return { ...state, types };
-      }
       case actionTypes.addTravels: {
         return { ...state };
       }
@@ -40,6 +39,12 @@ export const reducer = persistReducer(
       }
       case actionTypes.deleteTravels: {
         return { ...state };
+      }
+      
+      case actionTypes.getAllCities: {
+        console.log("action.payload ::::", action.payload);
+        const cities = action.payload;
+        return { ...state, cities };
       }
 
       default:
@@ -53,10 +58,12 @@ export const actions = {
     type: actionTypes.getAllTravels,
     payload: { travels },
   }),
-  getTravelBrands: (brands) => ({
-    type: actionTypes.getTravelBrands,
-    payload: { brands },
+
+  getAllCities: (cities) => ({
+    type: actionTypes.getAllCities,
+    payload: { cities },
   }),
+
   getTravelTypes: (types) => ({
     type: actionTypes.getTravelTypes,
     payload: { types },
