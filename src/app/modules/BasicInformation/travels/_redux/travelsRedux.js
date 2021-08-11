@@ -8,16 +8,16 @@ export const actionTypes = {
   editTravels: "[editTravels] Action",
   deleteTravels: "[deleteTravels] Action",
 
-  getAllDrivers: "[getAllDrivers] Action",
-  getAllBuses: "[getAllBuses] Action",
-  getAllDirections: "[getAllDirections] Action",
+  getAllDriversTravel: "[getAllDriversTravel] Action",
+  getAllBusesTravel: "[getAllBusesTravel] Action",
+  getAllDirectionsTravel: "[getAllDirectionsTravel] Action",
 };
 
 const initialCountreiesState = {
   travels: [],
-  drivers: [],
-  buses: [],
-  directions: [],
+  driversTravel: [],
+  busesTravel: [],
+  directionsTravel: [],
   isTravelsLoaded: false,
 };
 
@@ -40,20 +40,20 @@ export const reducer = persistReducer(
         return { ...state };
       }
 
-      case actionTypes.getAllDrivers: {
+      case actionTypes.getAllDriversTravel: {
         console.log("action.payload ::::", action.payload);
-        const drivers = action.payload;
-        return { ...state, drivers };
+        const driversTravel = action.payload;
+        return { ...state, driversTravel };
       }
-      case actionTypes.getAllBuses: {
+      case actionTypes.getAllBusesTravel: {
         console.log("action.payload ::::", action.payload);
-        const buses = action.payload;
-        return { ...state, buses };
+        const busesTravel = action.payload;
+        return { ...state, busesTravel };
       }
-      case actionTypes.getAllDirections: {
+      case actionTypes.getAllDirectionsTravel: {
         console.log("action.payload ::::", action.payload);
-        const directions = action.payload;
-        return { ...state, directions };
+        const directionsTravel = action.payload;
+        return { ...state, directionsTravel };
       }
 
       default:
@@ -68,17 +68,17 @@ export const actions = {
     payload: { travels },
   }),
 
-  getAllDrivers: (drivers) => ({
-    type: actionTypes.getAllDrivers,
-    payload: { drivers },
+  getAllDriversTravel: (driversTravel) => ({
+    type: actionTypes.getAllDriversTravel,
+    payload: { driversTravel },
   }),
-  getAllBuses: (drivers) => ({
-    type: actionTypes.getAllBuses,
-    payload: { drivers },
+  getAllBusesTravel: (busesTravel) => ({
+    type: actionTypes.getAllBusesTravel,
+    payload: { busesTravel },
   }),
-  getAllDirection: (drivers) => ({
-    type: actionTypes.getAllDirection,
-    payload: { drivers },
+  getAllDirectionsTravel: (directionsTravel) => ({
+    type: actionTypes.getAllDirectionsTravel,
+    payload: { directionsTravel },
   }),
 
   addTravels: (travels) => ({

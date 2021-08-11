@@ -16,6 +16,7 @@ import * as stations from "../app/modules/BasicInformation/stations/_redux/stati
 import * as directions from "../app/modules/BasicInformation/directions/_redux/directionsRedux";
 import * as travels from "../app/modules/BasicInformation/travels/_redux/travelsRedux";
 import * as details from "../app/modules/BasicInformation/details/_redux/detailsRedux";
+import * as travelDetails from "../app/modules/BasicInformation/travelDetails/_redux/travelDetailsRedux";
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
@@ -32,8 +33,8 @@ export const rootReducer = combineReducers({
   servants: servants.reducer,
   stations: stations.reducer,
   directions: directions.reducer,
-  details: details.reducer
-
+  details: details.reducer,
+  travelDetails: travelDetails.reducer,
 });
 
 export function* rootSaga() {

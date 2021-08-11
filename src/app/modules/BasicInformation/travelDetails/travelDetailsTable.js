@@ -5,11 +5,9 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../_metronic/_partials/controls";
-import { Link, useHistory } from "react-router-dom";
-import { Modal } from "react-bootstrap";
 import { DatePicker } from "jalali-react-datepicker";
-
-import FormGroup from "@material-ui/core/FormGroup";
+import { Modal } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import * as columnFormatters from "./formatters";
 
 import BootstrapTable from "react-bootstrap-table-next";
@@ -31,21 +29,14 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { connect, shallowEqual, useSelector } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
-import * as travels from "./_redux/travelsRedux";
-import moment from "moment-jalaali";
-
+import * as travelDetails from "./_redux/travelDetailsRedux";
 import {
-  getAllTravels,
-  deleteTravel,
-  addTravel,
-  editTravel,
-} from "./_redux/travelsCrud";
-//  FIX THIS
-// import { getAllCities } from "../busTypes/_redux/busTypesCrud";
+  getAllTravelDetails,
+  deleteTravelDetails,
+  addTravelDetails,
+  editTravelDetails,
+} from "./_redux/travelDetailsCrud";
 import { getAllCities } from "../cities/_redux/citiesCrud";
-import { getAllBuses } from "../buses/_redux/busesCrud";
-import { getAllDrivers } from "../drivers/_redux/driversCrud";
-import { getAllDirections } from "../directions/_redux/directionsCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -53,6 +44,7 @@ import {
   Select,
   DatePickerField,
 } from "../../../../_metronic/_partials/controls";
+import moment from "moment-jalaali";
 
 // Validation schema
 const CustomerEditSchema = Yup.object().shape({
@@ -62,39 +54,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function TravelsTable(props) {
+function TravelDetailsTable(props) {
   console.log("props", props);
+
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [expire, setExpire] = useState("");
 
   let { state } = useSelector(
     (state) => ({
-      state: state.travels,
+      state: state.travelDetails,
     }),
     shallowEqual
   );
   const { user } = useSelector((state) => state.auth);
-  const [expire, setExpire] = useState("");
-
   const history = useHistory();
 
-  console.log("travels", state);
-
-  if (!state.isTravelsLoaded) {
-    getAllTravels().then((res) => {
-      props.getAllTravels(res.data.Data);
-
-      console.log("STATE is");
-
-      getAllDrivers().then((res) => {
-        props.getAllDriversTravel(res.data.Data);
+  const tid = props.match.params.id;
+  console.log("travelDetails", state);
+  if (!isLoaded) {
+    getAllTravelDetails(tid).then((res) => {
+      props.getAllTravelDetails(res.data.Data);
+      getAllCities().then((res) => {
+        props.getAllCities(res.data.Data);
       });
-      getAllBuses().then((res) => {
-        props.getAllBusesTravel(res.data.Data);
-      });
-      getAllDirections().then((res) => {
-        props.getAllDirectionsTravel(res.data.Data);
-      });
+      setIsLoaded(true);
     });
   }
+  const convertToJalali = (date) => {
+    if (date) {
+      console.log("moment(date) = ", moment(date));
+      return moment(date);
+    }
+    return new Date();
+  };
+
   const { SearchBar, ClearSearchButton } = Search;
 
   const columns = [
@@ -105,16 +98,17 @@ function TravelsTable(props) {
       sortCaret: sortCaret,
       // filter: textFilter()
     },
+
     {
-      dataField: "direction.direction_details[0].arrivalTime",
-      text: "تاریخ حرکت",
+      dataField: "source.title",
+      text: "مبدأ",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "basePrice",
-      text: "قیمت",
+      dataField: "destination.title",
+      text: "مقصد",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
@@ -127,44 +121,22 @@ function TravelsTable(props) {
       // filter: textFilter()
       sortCaret: sortCaret,
     },
-
     {
-      dataField: "direction.direction_details[0].city.title",
-      text: "مبدا",
-      sort: true,
-      // filter: textFilter()
-      sortCaret: sortCaret,
-    },
-    {
-      dataField: "destinationId",
-      text: "مقصد",
-      sort: true,
-      formatter: columnFormatters.DestinationFormatter,
-      // filter: textFilter()
-      sortCaret: sortCaret,
-    },
-    {
-      dataField: "bus.title",
-      text: "اتوبوس",
-      sort: true,
-      // filter: textFilter()
-      sortCaret: sortCaret,
-    },
-    {
-      dataField: "driver.firstName",
-      text: "راننده",
+      dataField: "price",
+      text: "قیمت",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
 
-    // {
-    //   dataField: "bus_type[title]",
-    //   text: "نوع اتوبوس",
-    //   sort: true,
-    //   // filter: textFilter()
-    //   sortCaret: sortCaret,
-    // },
+    {
+      dataField: "departureDatetime",
+      text: "تاریخ حرکت",
+      sort: true,
+      // filter: textFilter()
+      formatter: columnFormatters.DateFormatter,
+      sortCaret: sortCaret,
+    },
 
     {
       dataField: "action",
@@ -176,7 +148,9 @@ function TravelsTable(props) {
         return (
           <>
             <OverlayTrigger
-              overlay={<Tooltip id="products-edit-tooltip">ویرایش سفر</Tooltip>}
+              overlay={
+                <Tooltip id="products-edit-tooltip">ویرایش جزییات مسیر</Tooltip>
+              }
             >
               <a
                 className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -196,7 +170,9 @@ function TravelsTable(props) {
               </a>
             </OverlayTrigger>
             <OverlayTrigger
-              overlay={<Tooltip id="products-delete-tooltip">حذف سفر</Tooltip>}
+              overlay={
+                <Tooltip id="products-delete-tooltip">حذف جزییات مسیر</Tooltip>
+              }
             >
               <a
                 className="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -208,27 +184,6 @@ function TravelsTable(props) {
                 <span className="svg-icon svg-icon-md svg-icon-danger">
                   <SVG
                     src={toAbsoluteUrl("/media/svg/icons/General/Trash.svg")}
-                  />
-                </span>
-              </a>
-            </OverlayTrigger>
-            <OverlayTrigger
-              overlay={
-                <Tooltip id="products-delete-tooltip">
-                  مشاهده جزییات سفر
-                </Tooltip>
-              }
-            >
-              <a
-                style={{ marginRight: 10 }}
-                className="btn btn-icon btn-light btn-hover-success btn-sm"
-                onClick={() => history.push("/travelDetails/" + row.id)}
-              >
-                <span className="svg-icon svg-icon-md svg-icon-success">
-                  <SVG
-                    src={toAbsoluteUrl(
-                      "/media/svg/icons/General/Attachment1.svg"
-                    )}
                   />
                 </span>
               </a>
@@ -251,32 +206,33 @@ function TravelsTable(props) {
     setEditMode(false);
     setEditOpen(true);
   };
-  const expireDate = (event) => {
-    var val = event.value._i;
-    var date = val.substr(0, val.length - 3);
-    setExpire(date);
-    console.log("setExpire val :::: ", date);
-  };
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const expireDate = (event) => {
+    console.log("event :::", event.value._d);
+    var val = event.value._i;
+    var valTime = event.value._d.toString();
+    console.log("valTime :::", valTime.time);
+    var date = val.substr(0, val.length - 3) + "T" + valTime.substr(16, 8); //2021-03-23 15:10:00 => 2021-03-23T10:40:00.000Z
+    setExpire(date);
+    console.log("setExpire val :::: ", date);
+  };
+  const back = () => {
+    setIsLoaded(false);
+    history.push("/TRAVELS");
   };
   const handleEditClose = () => {
     setCurrent({});
     setEditOpen(false);
     setEditMode(false);
   };
-  const convertToJalali = (date) => {
-    if (date) {
-      return moment(date.substr(0, 10)).format("jYYYY-jMM-jDD");
-    }
-    return date;
-  };
 
-  const removeTravel = (id) => {
-    deleteTravel(id).then((res) => {
-      getAllTravels().then((res) => {
-        props.getAllTravels(res.data.Data);
+  const removeTravelDetails = (cid) => {
+    deleteTravelDetails(cid, tid).then((res) => {
+      getAllTravelDetails(tid).then((res) => {
+        props.getAllTravelDetails(res.data.Data);
       });
     });
     setOpen(false);
@@ -285,14 +241,23 @@ function TravelsTable(props) {
   return (
     <>
       <Card>
-        <CardHeader title="لیست سفر ها">
+        <CardHeader title="لیست جزییات مسیر ها">
           <CardHeaderToolbar>
             <button
               type="button"
               className="btn btn-primary"
               onClick={handleClickOpen}
             >
-              سفر جدید
+              جزییات مسیر جدید
+            </button>
+            <button
+              style={{ marginRight: 10 }}
+              type="button"
+              onClick={back}
+              className="btn btn-light"
+            >
+              <i className="fa fa-arrow-left"></i>
+              بازگشت
             </button>
           </CardHeaderToolbar>
         </CardHeader>
@@ -307,7 +272,7 @@ function TravelsTable(props) {
 
           <ToolkitProvider
             keyField="id"
-            data={state.travels.travels ?? []}
+            data={state.travelDetails.travelDetails ?? []}
             columns={columns}
             search
           >
@@ -341,7 +306,7 @@ function TravelsTable(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          {"آیا واقعا قصد حذف این سفر را دارید ؟"}
+          {"آیا واقعا قصد حذف این جزییات مسیر را دارید ؟"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
@@ -349,7 +314,7 @@ function TravelsTable(props) {
         <DialogActions>
           <Button onClick={handleClose}>انصراف</Button>
           <Button
-            onClick={() => removeTravel(current.id)}
+            onClick={() => removeTravelDetails(current.id)}
             className="btn btn-danger"
             color="danger"
           >
@@ -362,19 +327,24 @@ function TravelsTable(props) {
         enableReinitialize={true}
         initialValues={current}
         // validationSchema={CustomerEditSchema}
+
         onSubmit={(values) => {
+          values.travelId = tid;
+          values.departureDatetime = expire;
+
+          console.log("values on submit", values);
           if (!editMode) {
-            addTravel(values).then((res) => {
-              getAllTravels().then((res) => {
-                props.getAllTravels(res.data.Data);
+            addTravelDetails(values, tid).then((res) => {
+              getAllTravelDetails(tid).then((res) => {
+                props.getAllTravelDetails(res.data.Data);
               });
             });
             setEditOpen(false);
             setCurrent({});
           } else if (editMode) {
-            editTravel(values).then((res) => {
-              getAllTravels().then((res) => {
-                props.getAllTravels(res.data.Data);
+            editTravelDetails(values, tid).then((res) => {
+              getAllTravelDetails(tid).then((res) => {
+                props.getAllTravelDetails(res.data.Data);
               });
             });
             setEditOpen(false);
@@ -392,17 +362,18 @@ function TravelsTable(props) {
             <Modal show={editOpen} onHide={handleEditClose}>
               <Modal.Header closeButton>
                 <Modal.Title>
-                  {editMode ? "ویرایش سفر" : "افزودن سفر"}
+                  {editMode ? "ویرایش جزییات مسیر" : "افزودن جزییات مسیر"}
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form className="form form-label-right">
                   <div className="form-group row">
-                    <div className="col-lg-4">
-                      <Select name="directionId" label="مسیر">
-                        <option>انتخاب مسیر</option>
-                        {state.directionsTravel.directionsTravel != null ? (
-                          state.directionsTravel.directionsTravel.map((c) => (
+                    <div className="col-lg-6">
+                      <Select name="sourceId" label="مبدأ">
+                        <option>مبدأ</option>
+
+                        {state.cities.cities != null ? (
+                          state.cities.cities.map((c) => (
                             <option key={c.id} value={c.id}>
                               {c.title}
                             </option>
@@ -412,16 +383,30 @@ function TravelsTable(props) {
                         )}
                       </Select>
                     </div>
-                    <div className="col-lg-4">
+                    <div className="col-lg-6">
+                      <Select name="destinationId" label="مقصد">
+                        <option>مقصد</option>
+
+                        {state.cities.cities != null ? (
+                          state.cities.cities.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.title}
+                            </option>
+                          ))
+                        ) : (
+                          <option></option>
+                        )}
+                      </Select>
+                    </div>
+                    <div className="col-lg-6">
                       <Field
-                        name="basePrice"
+                        name="price"
                         component={Input}
                         placeholder="قیمت"
                         label="قیمت"
                       />
                     </div>
-
-                    <div className="col-lg-4">
+                    <div className="col-lg-6">
                       {/* <Field
                         type="number"
                         name="status"
@@ -440,36 +425,19 @@ function TravelsTable(props) {
                       </Select>
                     </div>
                   </div>
-
                   <div className="form-group row">
-                    <div className="col-lg-4">
-                      <Select name="busId" label="اتوبوس">
-                        <option>انتخاب اتوبوس</option>
-                        {state.busesTravel.busesTravel != null ? (
-                          state.busesTravel.busesTravel.map((c) => (
-                            <option key={c.id} value={c.id}>
-                              {c.title}
-                            </option>
-                          ))
-                        ) : (
-                          <option></option>
-                        )}
-                      </Select>
-                    </div>
+                    <div className="col-lg-6">
+                      <DatePicker
+                        name="departureDatetime"
+                        id="departureDatetime"
+                        timePicker={false}
+                        label="تاریخ حرکت"
+                        className="form-control"
+                        value={convertToJalali(current.departureDatetime)}
+                        onClickSubmitButton={expireDate}
 
-                    <div className="col-lg-4">
-                      <Select name="driverId" label="راننده">
-                        <option>انتخاب راننده</option>
-                        {state.driversTravel.driversTravel != null ? (
-                          state.driversTravel.driversTravel.map((c) => (
-                            <option key={c.id} value={c.id}>
-                              {c.firstName + " " + c.lastName}
-                            </option>
-                          ))
-                        ) : (
-                          <option></option>
-                        )}
-                      </Select>
+                        //value={this.props.smart_cart_expire_date == null ? (new Date()) : this.props.smart_cart_expire_date}
+                      />
                     </div>
                   </div>
                 </Form>
@@ -493,4 +461,6 @@ function TravelsTable(props) {
     </>
   );
 }
-export default injectIntl(connect(null, travels.actions)(TravelsTable));
+export default injectIntl(
+  connect(null, travelDetails.actions)(TravelDetailsTable)
+);

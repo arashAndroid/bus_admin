@@ -1,5 +1,3 @@
-
-
 import React, { Suspense, lazy } from "react";
 import { Redirect, Switch, Route } from "react-router-dom";
 import { LayoutSplashScreen, ContentRoute } from "../_metronic/layout";
@@ -20,8 +18,8 @@ import servantsTable from "./modules/BasicInformation/servants/servantsTable";
 import stationsTable from "./modules/BasicInformation/stations/stationsTable";
 import directionsTable from "./modules/BasicInformation/directions/directionsTable";
 import detailsTable from "./modules/BasicInformation/details/detailsTable";
+import travelDetailsTable from "./modules/BasicInformation/travelDetails/travelDetailsTable";
 import { Logout, AuthPage } from "./modules/Auth";
-
 
 const GoogleMaterialPage = lazy(() =>
   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
@@ -62,6 +60,10 @@ export default function BasePage() {
         <ContentRoute path="/stations" component={stationsTable} />
         <ContentRoute path="/directions" component={directionsTable} />
         <ContentRoute path="/details/:id" component={detailsTable} />
+        <ContentRoute
+          path="/travelDetails/:id"
+          component={travelDetailsTable}
+        />
 
         <ContentRoute path="/builder" component={BuilderPage} />
         <ContentRoute path="/my-page" component={MyPage} />
@@ -70,7 +72,6 @@ export default function BasePage() {
     </Suspense>
   );
 }
-
 
 // import React, { Suspense, lazy } from "react";
 // import { Redirect, Switch, Route } from "react-router-dom";
@@ -109,32 +110,28 @@ export default function BasePage() {
 //     <Suspense fallback={<LayoutSplashScreen />}>
 //       <Switch>
 
-
-
 //         {isAuthorized ?
 //           <>
 //             <Redirect exact from="/" to="/dashboard" />
 
+// <ContentRoute path="/dashboard" component={DashboardPage} />
 
-            // <ContentRoute path="/dashboard" component={DashboardPage} />
+// <ContentRoute path="/countries" component={CountriesTable} />
+// <ContentRoute path="/provinces" component={provincesTable} />
+// <ContentRoute path="/townships" component={townshipsTable} />
+// <ContentRoute path="/car_brands" component={carBrandsTable} />
+// <ContentRoute path="/car_types" component={carTypesTable} />
+// <ContentRoute path="/cars" component={carsTable} />
+// <ContentRoute path="/drivers" component={driversTable} />
+// <ContentRoute path="/servants" component={servantsTable} />
+// <ContentRoute path="/stations" component={stationsTable} />
+// <ContentRoute path="/directions" component={directionsTable} />
+// <ContentRoute path="/directions/:id" component={detailsTable} />
 
-            // <ContentRoute path="/countries" component={CountriesTable} />
-            // <ContentRoute path="/provinces" component={provincesTable} />
-            // <ContentRoute path="/townships" component={townshipsTable} />
-            // <ContentRoute path="/car_brands" component={carBrandsTable} />
-            // <ContentRoute path="/car_types" component={carTypesTable} />
-            // <ContentRoute path="/cars" component={carsTable} />
-            // <ContentRoute path="/drivers" component={driversTable} />
-            // <ContentRoute path="/servants" component={servantsTable} />
-            // <ContentRoute path="/stations" component={stationsTable} />
-            // <ContentRoute path="/directions" component={directionsTable} />
-            // <ContentRoute path="/directions/:id" component={detailsTable} />
+// <ContentRoute path="/travels" component={travelsTable} />
 
-            // <ContentRoute path="/travels" component={travelsTable} />
-
-            // <ContentRoute path="/builder" component={BuilderPage} />
-            // <ContentRoute path="/my-page" component={MyPage} />
-
+// <ContentRoute path="/builder" component={BuilderPage} />
+// <ContentRoute path="/my-page" component={MyPage} />
 
 //           </>
 //           :
