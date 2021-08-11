@@ -1,16 +1,6 @@
 import React from "react";
-import {
-  StatusCssClasses,
-  StatusTitles
-} from "./Helper";
+import { StatusCssClasses, StatusTitles } from "./Helper";
 
 export const TimeFormatter = (cellContent, row) => (
-
-  <span
-
-  >
-    {
-      row.Duration ? row.Duration + " دقیقه " : 0
-    }
-  </span>
+  <span>{row.arrivalTime ? row.arrivalTime + " دقیقه " : 0}</span>
 );

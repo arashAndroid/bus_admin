@@ -4,21 +4,20 @@ import { put, takeLatest } from "redux-saga/effects";
 
 export const actionTypes = {
   getAllTravels: "[getAllTravels] Action",
-  getTravelTypes: "[getTravelTypes] Action",
-  getAllCities: "[getAllCities] Action",
   addTravels: "[addTravels] Action",
   editTravels: "[editTravels] Action",
   deleteTravels: "[deleteTravels] Action",
-  
-  getAllDrivers: "[getAllDrivers] Action",
 
+  getAllDrivers: "[getAllDrivers] Action",
+  getAllBuses: "[getAllBuses] Action",
+  getAllDirections: "[getAllDirections] Action",
 };
 
 const initialCountreiesState = {
   travels: [],
-  cities: [],
-  types: [],
-  Drivers: [],
+  drivers: [],
+  buses: [],
+  directions: [],
   isTravelsLoaded: false,
 };
 
@@ -40,11 +39,21 @@ export const reducer = persistReducer(
       case actionTypes.deleteTravels: {
         return { ...state };
       }
-      
-      case actionTypes.getAllCities: {
+
+      case actionTypes.getAllDrivers: {
         console.log("action.payload ::::", action.payload);
-        const cities = action.payload;
-        return { ...state, cities };
+        const drivers = action.payload;
+        return { ...state, drivers };
+      }
+      case actionTypes.getAllBuses: {
+        console.log("action.payload ::::", action.payload);
+        const buses = action.payload;
+        return { ...state, buses };
+      }
+      case actionTypes.getAllDirections: {
+        console.log("action.payload ::::", action.payload);
+        const directions = action.payload;
+        return { ...state, directions };
       }
 
       default:
@@ -59,17 +68,27 @@ export const actions = {
     payload: { travels },
   }),
 
-  getAllCities: (cities) => ({
-    type: actionTypes.getAllCities,
-    payload: { cities },
+  getAllDrivers: (drivers) => ({
+    type: actionTypes.getAllDrivers,
+    payload: { drivers },
+  }),
+  getAllBuses: (drivers) => ({
+    type: actionTypes.getAllBuses,
+    payload: { drivers },
+  }),
+  getAllDirection: (drivers) => ({
+    type: actionTypes.getAllDirection,
+    payload: { drivers },
   }),
 
-  getTravelTypes: (types) => ({
-    type: actionTypes.getTravelTypes,
-    payload: { types },
+  addTravels: (travels) => ({
+    type: actionTypes.addTravels,
+    payload: { travels },
   }),
-  addTravels: (travels) => ({ type: actionTypes.addTravels, payload: { travels } }),
-  editTravels: (travels) => ({ type: actionTypes.editTravels, payload: { travels } }),
+  editTravels: (travels) => ({
+    type: actionTypes.editTravels,
+    payload: { travels },
+  }),
   deleteTravels: (travels) => ({
     type: actionTypes.deleteTravels,
     payload: { travels },

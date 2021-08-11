@@ -42,6 +42,8 @@ import {
 //  FIX THIS
 // import { getAllCities } from "../busTypes/_redux/busTypesCrud";
 import { getAllCities } from "../cities/_redux/citiesCrud";
+import { getAllBuses } from "../buses/_redux/busesCrud";
+import { getAllDrivers } from "../drivers/_redux/driversCrud";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -78,8 +80,11 @@ function TravelsTable(props) {
 
       console.log("STATE is");
 
-      getAllCities().then((res) => {
-        props.getAllCities(res.data.Data);
+      getAllDrivers().then((res) => {
+        props.getAllDrivers(res.data.Data);
+      });
+      getAllBuses().then((res) => {
+        props.getAllBuses(res.data.Data);
       });
     });
   }
@@ -94,14 +99,14 @@ function TravelsTable(props) {
       // filter: textFilter()
     },
     {
-      dataField: "departureDatetime",
+      dataField: "direction.direction_details[0].arrivalTime",
       text: "تاریخ حرکت",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "price",
+      dataField: "basePrice",
       text: "قیمت",
       sort: true,
       // filter: textFilter()
@@ -116,16 +121,17 @@ function TravelsTable(props) {
     },
 
     {
-      dataField: "destination.title",
-      text: "شهر مقصد",
+      dataField: "direction.direction_details[0].city.title",
+      text: "مبدا",
       sort: true,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
     {
-      dataField: "source.title",
-      text: "شهر مبدا",
+      dataField: "destinationId",
+      text: "مقصد",
       sort: true,
+      formatter: columnFormatters.DestinationFormatter,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
@@ -405,7 +411,7 @@ function TravelsTable(props) {
 
                   <div className="form-group row">
                     <div className="col-lg-4">
-                      <Select name="sourceId" label="مبدا">
+                      {/* <Select name="sourceId" label="مبدا">
                         <option>انتخاب شهر</option>
                         {state.cities.cities != null ? (
                           state.cities.cities.map((c) => (
@@ -416,11 +422,11 @@ function TravelsTable(props) {
                         ) : (
                           <option></option>
                         )}
-                      </Select>
+                      </Select> */}
                     </div>
 
                     <div className="col-lg-4">
-                      <Select name="destinationId" label="مقصد">
+                      {/* <Select name="destinationId" label="مقصد">
                         <option>انتخاب شهر</option>
                         {state.cities.cities != null ? (
                           state.cities.cities.map((c) => (
@@ -431,7 +437,7 @@ function TravelsTable(props) {
                         ) : (
                           <option></option>
                         )}
-                      </Select>
+                      </Select> */}
                     </div>
                   </div>
                 </Form>
