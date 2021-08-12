@@ -82,8 +82,6 @@ function TravelsTable(props) {
     getAllTravels().then((res) => {
       props.getAllTravels(res.data.Data);
 
-      console.log("STATE is");
-
       getAllDrivers().then((res) => {
         props.getAllDriversTravel(res.data.Data);
       });
@@ -91,6 +89,7 @@ function TravelsTable(props) {
         props.getAllBusesTravel(res.data.Data);
       });
       getAllDirections().then((res) => {
+        console.log("getAllDirections :::::::::::::", res);
         props.getAllDirectionsTravel(res.data.Data);
       });
     });
@@ -106,9 +105,10 @@ function TravelsTable(props) {
       // filter: textFilter()
     },
     {
-      dataField: "direction.direction_details[0].arrivalTime",
+      dataField: "departureDatetime",
       text: "تاریخ حرکت",
       sort: true,
+      formatter: columnFormatters.DateFormatter,
       // filter: textFilter()
       sortCaret: sortCaret,
     },
@@ -251,12 +251,6 @@ function TravelsTable(props) {
     setEditMode(false);
     setEditOpen(true);
   };
-  const expireDate = (event) => {
-    var val = event.value._i;
-    var date = val.substr(0, val.length - 3);
-    setExpire(date);
-    console.log("setExpire val :::: ", date);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -271,6 +265,15 @@ function TravelsTable(props) {
       return moment(date.substr(0, 10)).format("jYYYY-jMM-jDD");
     }
     return date;
+  };
+  const expireDate = (event) => {
+    console.log("event :::", event.value._d);
+    var val = event.value._i;
+    var valTime = event.value._d.toString();
+    console.log("valTime :::", valTime.time);
+    var date = val.substr(0, val.length - 3) + "T" + valTime.substr(16, 8); //2021-03-23 15:10:00 => 2021-03-23T10:40:00.000Z
+    setExpire(date);
+    console.log("setExpire val :::: ", date);
   };
 
   const removeTravel = (id) => {
@@ -363,6 +366,7 @@ function TravelsTable(props) {
         initialValues={current}
         // validationSchema={CustomerEditSchema}
         onSubmit={(values) => {
+          values.departureDatetime = expire;
           if (!editMode) {
             addTravel(values).then((res) => {
               getAllTravels().then((res) => {
@@ -470,6 +474,19 @@ function TravelsTable(props) {
                           <option></option>
                         )}
                       </Select>
+                    </div>
+                    <div className="col-lg-4">
+                      <DatePicker
+                        name="departureDatetime"
+                        id="departureDatetime"
+                        timePicker={false}
+                        label="تاریخ حرکت"
+                        className="form-control"
+                        value={convertToJalali(current.departureDatetime)}
+                        onClickSubmitButton={expireDate}
+
+                        //value={this.props.smart_cart_expire_date == null ? (new Date()) : this.props.smart_cart_expire_date}
+                      />
                     </div>
                   </div>
                 </Form>

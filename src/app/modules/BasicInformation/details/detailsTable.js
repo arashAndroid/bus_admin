@@ -121,11 +121,11 @@ function DetailsTable(props) {
     },
 
     {
-      dataField: "arrivalTime",
+      dataField: "durationFromSource",
       text: "زمان رسیدن به ایستگاه",
       sort: true,
       // filter: textFilter()
-      formatter: columnFormatters.DateFormatter,
+      formatter: columnFormatters.DurationFormatter,
       sortCaret: sortCaret,
     },
 
@@ -201,15 +201,7 @@ function DetailsTable(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const expireDate = (event) => {
-    console.log("event :::", event.value._d);
-    var val = event.value._i;
-    var valTime = event.value._d.toString();
-    console.log("valTime :::", valTime.time);
-    var date = val.substr(0, val.length - 3) + "T" + valTime.substr(16, 8); //2021-03-23 15:10:00 => 2021-03-23T10:40:00.000Z
-    setExpire(date);
-    console.log("setExpire val :::: ", date);
-  };
+
   const back = () => {
     setIsLoaded(false);
     history.push("/directions");
@@ -321,7 +313,7 @@ function DetailsTable(props) {
 
         onSubmit={(values) => {
           values.directionId = did;
-          values.arrivalTime = expire;
+          // values.arrivalTime = expire;
 
           console.log("values on submit", values);
           if (!editMode) {
@@ -392,18 +384,12 @@ function DetailsTable(props) {
                         label="مسافت از مبدا"
                       />
                     </div>
-
                     <div className="col-lg-6">
-                      <DatePicker
-                        name="arrivalTime"
-                        id="arrivalTime"
-                        timePicker={false}
+                      <Field
+                        name="durationFromSource"
+                        component={Input}
+                        placeholder="زمان رسیدن به ایستگاه"
                         label="زمان رسیدن به ایستگاه"
-                        className="form-control"
-                        value={convertToJalali(current.arrivalTime)}
-                        onClickSubmitButton={expireDate}
-
-                        //value={this.props.smart_cart_expire_date == null ? (new Date()) : this.props.smart_cart_expire_date}
                       />
                     </div>
                   </div>
