@@ -116,7 +116,9 @@ function CitiesTable(props) {
         return (
           <>
             <OverlayTrigger
-              overlay={<Tooltip id="products-edit-tooltip">ویرایش شهر</Tooltip>}
+              overlay={
+                <Tooltip id="products-edit-tooltip">ویرایش ایستگاه</Tooltip>
+              }
             >
               <a
                 className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
@@ -136,7 +138,9 @@ function CitiesTable(props) {
               </a>
             </OverlayTrigger>
             <OverlayTrigger
-              overlay={<Tooltip id="products-delete-tooltip">حذف شهر</Tooltip>}
+              overlay={
+                <Tooltip id="products-delete-tooltip">حذف ایستگاه</Tooltip>
+              }
             >
               <a
                 className="btn btn-icon btn-light btn-hover-danger btn-sm"
@@ -192,14 +196,14 @@ function CitiesTable(props) {
   return (
     <>
       <Card>
-        <CardHeader title="لیست شهر ها">
+        <CardHeader title="لیست ایستگاه ها">
           <CardHeaderToolbar>
             <button
               type="button"
               className="btn btn-primary"
               onClick={handleClickOpen}
             >
-              شهر جدید
+              ایستگاه جدید
             </button>
           </CardHeaderToolbar>
         </CardHeader>
@@ -248,7 +252,7 @@ function CitiesTable(props) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          {"آیا واقعا قصد حذف این شهر را دارید ؟"}
+          {"آیا واقعا قصد حذف این ایستگاه را دارید ؟"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
@@ -299,7 +303,7 @@ function CitiesTable(props) {
             <Modal show={editOpen} onHide={handleEditClose}>
               <Modal.Header closeButton>
                 <Modal.Title>
-                  {editMode ? "ویرایش شهر" : "افزودن شهر"}
+                  {editMode ? "ویرایش ایستگاه" : "افزودن ایستگاه"}
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>

@@ -60,7 +60,7 @@ export function AsideMenuList({ layoutProps }) {
                         )}
                       />
                     </span>
-                    <span className="menu-text"> شهر ها </span>
+                    <span className="menu-text"> ایستگاه‌ ها </span>
                   </NavLink>
                 </li>
                 {/*end::2 Level*/}
@@ -113,21 +113,6 @@ export function AsideMenuList({ layoutProps }) {
                 </li>
                 {/*end::2 Level*/}
 
-                <li
-                  className={`menu-item ${getMenuItemActive("/travels")}`}
-                  aria-haspopup="true"
-                >
-                  <NavLink className="menu-link" to="/travels">
-                    <span className="svg-icon menu-icon">
-                      <SVG
-                        src={toAbsoluteUrl(
-                          "/media/svg/icons/Shopping/Box2.svg"
-                        )}
-                      />
-                    </span>
-                    <span className="menu-text">سفرها</span>
-                  </NavLink>
-                </li>
                 <li
                   className={`menu-item ${getMenuItemActive("/directions")}`}
                   aria-haspopup="true"
